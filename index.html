@@ -32,7 +32,6 @@
     <img id="cityImage" alt="City Image">
     <div id="cityName"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script>
         const cities = [
             "Seoul", "Buenos Aires", "Athens", "Cape Town", "Hong Kong",
@@ -43,31 +42,13 @@
 
         let currentIndex = 0;
 
-        async function getImageUrl(city) {
-            try {
-                const response = await axios.get('https://pixabay.com/api/', {
-                    params: {
-                        key: '40844787-91ebedb7b59ffc69aa5c57a4d',
-                        q: `${city} city`,
-                        image_type: 'photo',
-                        orientation: 'horizontal',
-                        per_page: 3
-                    }
-                });
-                if (response.data.hits.length > 0) {
-                    return response.data.hits[0].largeImageURL;
-                } else {
-                    throw new Error('No images found');
-                }
-            } catch (error) {
-                console.error('Error fetching image:', error);
-                return `/api/placeholder/1600/900?text=${encodeURIComponent(city)}`;
-            }
+        function getImageUrl(city) {
+            return `https://source.unsplash.com/1600x900/?${encodeURIComponent(city + ' city')}`;
         }
 
-        async function changeCity() {
+        function changeCity() {
             const city = cities[currentIndex];
-            const imageUrl = await getImageUrl(city);
+            const imageUrl = getImageUrl(city);
             
             const img = document.getElementById('cityImage');
             const cityNameElement = document.getElementById('cityName');
