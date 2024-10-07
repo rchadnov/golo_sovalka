@@ -86,7 +86,13 @@
             color: red;
         }
         .copy-button {
-            margin-top: auto;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .reset-button {
+            margin-top: 10px;
             padding: 10px;
             font-size: 16px;
             cursor: pointer;
@@ -121,10 +127,11 @@
         <div id="points-list"></div>
         <div class="validation" id="validation-message"></div>
         <button class="copy-button" onclick="copyResults()">Copy Results</button>
+        <button class="reset-button" onclick="resetPoints()">Reset</button>
     </div>
 
     <script>
-        // JSON Data (Include your JSON data here)
+        // JSON Data
         const data = {
   "cities": [
     {
@@ -385,7 +392,7 @@
   ]
 };
 
-        // Initialize Variables
+       // Initialize Variables
         let cities = data.cities;
         let points = {};
         let categories = [
@@ -396,34 +403,81 @@
             "ClimateAndWeather",
             "AdultEntertainment"
         ];
+        let currentComparison = {};
 
-        // Initialize Points and Points List
-        function initializePoints() {
+        // Initialize Application
+        function initialize() {
+            // Load state from local storage if available
+            if (localStorage.getItem('points')) {
+                points = JSON.parse(localStorage.getItem('points'));
+            } else {
+                // Initialize points to 10 for each city
+                cities.forEach(city => {
+                    points[city.city] = 10;
+                });
+            }
+
+            // Load current comparison from local storage if available
+            if (localStorage.getItem('currentComparison')) {
+                currentComparison = JSON.parse(localStorage.getItem('currentComparison'));
+                // Restore the current comparison display
+                restoreComparison();
+            } else {
+                // Generate a new comparison
+                generateComparison();
+            }
+
+            // Build the points list
+            buildPointsList();
+            updateValidationMessage();
+        }
+
+        // Build Points List with Sorting
+        function buildPointsList() {
             const pointsList = document.getElementById('points-list');
             pointsList.innerHTML = '';
-            cities.forEach(city => {
-                points[city.city] = 10;
+
+            // Create an array of cities with their points
+            let citiesWithPoints = cities.map(city => ({
+                city: city.city,
+                points: points[city.city]
+            }));
+
+            // Sort the array from highest to lowest points
+            citiesWithPoints.sort((a, b) => b.points - a.points);
+
+            // Build the points list
+            citiesWithPoints.forEach(cityData => {
                 const cityDiv = document.createElement('div');
                 cityDiv.className = 'city-points';
                 cityDiv.innerHTML = `
-                    <span>${city.city}</span>
+                    <span>${cityData.city}</span>
                     <div>
-                        <button onclick="adjustPoints('${city.city}', 1)">▲</button>
-                        <span id="points-${city.city}">10</span>
-                        <button onclick="adjustPoints('${city.city}', -1)">▼</button>
+                        <button onclick="adjustPoints('${cityData.city}', 1)">▲</button>
+                        <span id="points-${cityData.city}">${cityData.points}</span>
+                        <button onclick="adjustPoints('${cityData.city}', -1)">▼</button>
                     </div>
                 `;
                 pointsList.appendChild(cityDiv);
             });
-            updateValidationMessage();
         }
 
         // Adjust Points Manually
         function adjustPoints(cityName, change) {
             points[cityName] += change;
             if (points[cityName] < 0) points[cityName] = 0;
-            document.getElementById(`points-${cityName}`).innerText = points[cityName];
+            updatePointsDisplay(cityName);
             updateValidationMessage();
+            buildPointsList();
+            saveState();
+        }
+
+        // Update Points Display
+        function updatePointsDisplay(cityName) {
+            const pointSpan = document.getElementById(`points-${cityName}`);
+            if (pointSpan) {
+                pointSpan.innerText = points[cityName];
+            }
         }
 
         // Update Validation Message
@@ -439,7 +493,7 @@
             }
         }
 
-        // Randomly Select Category and Cities
+        // Generate a New Comparison
         function generateComparison() {
             const category = categories[Math.floor(Math.random() * categories.length)];
             let cityIndices = [];
@@ -473,6 +527,29 @@
                 leftCity: leftCity.city,
                 rightCity: rightCity.city
             };
+
+            // Save state
+            saveState();
+        }
+
+        // Restore Comparison from Local Storage
+        function restoreComparison() {
+            const leftCity = cities.find(city => city.city === currentComparison.leftCity);
+            const rightCity = cities.find(city => city.city === currentComparison.rightCity);
+            const category = currentComparison.category;
+            const categoryName = category.replace(/([A-Z])/g, ' $1').trim();
+
+            document.getElementById('left-city-name').innerText = leftCity.city;
+            document.getElementById('left-category').innerText = categoryName;
+            document.getElementById('left-text').innerText = leftCity.categories[category];
+
+            document.getElementById('right-city-name').innerText = rightCity.city;
+            document.getElementById('right-category').innerText = categoryName;
+            document.getElementById('right-text').innerText = rightCity.categories[category];
+
+            // Update Images
+            updateBackgroundImage('left', leftCity.city, category);
+            updateBackgroundImage('right', rightCity.city, category);
         }
 
         // Update Background Images
@@ -487,7 +564,6 @@
         }
 
         // Handle Voting
-        let currentComparison = {};
         function vote(side) {
             const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
             const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
@@ -499,23 +575,43 @@
                 updatePointsDisplay(winner);
                 updatePointsDisplay(loser);
                 updateValidationMessage();
+                buildPointsList();
+                saveState();
             }
 
             // Generate Next Comparison
             generateComparison();
         }
 
-        // Update Points Display
-        function updatePointsDisplay(cityName) {
-            document.getElementById(`points-${cityName}`).innerText = points[cityName];
+        // Save State to Local Storage
+        function saveState() {
+            localStorage.setItem('points', JSON.stringify(points));
+            localStorage.setItem('currentComparison', JSON.stringify(currentComparison));
+        }
+
+        // Reset Points and Clear Local Storage
+        function resetPoints() {
+            if (confirm('Are you sure you want to reset all points?')) {
+                localStorage.clear();
+                points = {};
+                currentComparison = {};
+                initialize();
+            }
         }
 
         // Copy Results to Clipboard
         function copyResults() {
-            let results = '';
-            for (let city of cities) {
-                results += `${city.city}: ${points[city.city]}\n`;
+            let resultsArray = [];
+
+            // Sort cities before copying
+            let sortedCities = Object.keys(points).sort((a, b) => points[b] - points[a]);
+
+            for (let cityName of sortedCities) {
+                resultsArray.push(`${cityName}: ${points[cityName]}`);
             }
+
+            let results = resultsArray.join('\n');
+
             navigator.clipboard.writeText(results).then(() => {
                 alert('Results copied to clipboard!');
             }, () => {
@@ -523,9 +619,8 @@
             });
         }
 
-        // Initialize
-        initializePoints();
-        generateComparison();
+        // Initialize the Application
+        initialize();
     </script>
 </body>
 </html>
