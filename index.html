@@ -1,1 +1,90 @@
-asdf
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Cities Slideshow</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #cityImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 1s ease-in-out;
+        }
+        #cityName {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <img id="cityImage" alt="City Image">
+    <div id="cityName"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        const cities = [
+            "Seoul", "Buenos Aires", "Athens", "Cape Town", "Hong Kong",
+            "Tokyo", "Rio de Janeiro", "Madrid", "Dublin", "Cyprus",
+            "Berlin", "Barcelona", "Rome", "Stockholm", "Vienna",
+            "Budapest", "Osaka", "Munich", "Shanghai"
+        ];
+
+        const unsplashAccessKey = 'YOUR_UNSPLASH_ACCESS_KEY';
+        let currentIndex = 0;
+
+        async function getImageUrl(city) {
+            try {
+                const response = await axios.get(`https://api.unsplash.com/photos/random`, {
+                    params: {
+                        query: city,
+                        orientation: 'landscape',
+                    },
+                    headers: {
+                        Authorization: `Client-ID ${unsplashAccessKey}`
+                    }
+                });
+                return response.data.urls.regular;
+            } catch (error) {
+                console.error('Error fetching image:', error);
+                return `https://source.unsplash.com/1600x900/?${city}`;
+            }
+        }
+
+        async function changeCity() {
+            const city = cities[currentIndex];
+            const imageUrl = await getImageUrl(city);
+            
+            const img = document.getElementById('cityImage');
+            const cityNameElement = document.getElementById('cityName');
+            
+            img.style.opacity = 0;
+            
+            setTimeout(() => {
+                img.src = imageUrl;
+                img.style.opacity = 1;
+                cityNameElement.textContent = city;
+            }, 1000);
+
+            currentIndex = (currentIndex + 1) % cities.length;
+        }
+
+        // Initial load
+        changeCity();
+
+        // Change city every 5 seconds
+        setInterval(changeCity, 5000);
+    </script>
+</body>
+</html>
