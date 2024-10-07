@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Destination Voting</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Roboto&display=swap" rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
         body {
             display: flex;
-            margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            overflow: hidden;
         }
         .comparison-pane {
             width: 40%;
             position: relative;
-            color: white;
             text-align: center;
             cursor: pointer;
             overflow: hidden;
+            color: white;
+            height: 100vh;
         }
         .comparison-pane img {
             width: 100%;
@@ -25,6 +32,7 @@
             top: 0;
             left: 0;
             z-index: -1;
+            filter: brightness(70%);
         }
         .comparison-pane .description {
             position: relative;
@@ -33,11 +41,29 @@
             padding: 20px;
             background: rgba(0, 0, 0, 0.5);
         }
+        .comparison-pane .city-name {
+            font-family: 'Lobster', cursive;
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px #000;
+        }
+        .comparison-pane .category {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px #000;
+        }
+        .comparison-pane .text {
+            font-size: 16px;
+            line-height: 1.5;
+            text-shadow: 1px 1px 2px #000;
+        }
         .points-pane {
             width: 20%;
             padding: 20px;
             background: #f4f4f4;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
         .city-points {
             display: flex;
@@ -59,6 +85,12 @@
         .invalid {
             color: red;
         }
+        .copy-button {
+            margin-top: auto;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -66,13 +98,21 @@
     <!-- Left Comparison Pane -->
     <div class="comparison-pane" id="left-pane" onclick="vote('left')">
         <img id="left-image" src="" alt="Left City">
-        <div class="description" id="left-description"></div>
+        <div class="description" id="left-description">
+            <div class="city-name" id="left-city-name"></div>
+            <div class="category" id="left-category"></div>
+            <div class="text" id="left-text"></div>
+        </div>
     </div>
 
     <!-- Right Comparison Pane -->
     <div class="comparison-pane" id="right-pane" onclick="vote('right')">
         <img id="right-image" src="" alt="Right City">
-        <div class="description" id="right-description"></div>
+        <div class="description" id="right-description">
+            <div class="city-name" id="right-city-name"></div>
+            <div class="category" id="right-category"></div>
+            <div class="text" id="right-text"></div>
+        </div>
     </div>
 
     <!-- Points Distribution Pane -->
@@ -80,10 +120,11 @@
         <h2>Points Distribution</h2>
         <div id="points-list"></div>
         <div class="validation" id="validation-message"></div>
+        <button class="copy-button" onclick="copyResults()">Copy Results</button>
     </div>
 
     <script>
-        // JSON Data
+        // JSON Data (Include your JSON data here)
         const data = {
   "cities": [
     {
@@ -347,7 +388,6 @@
         // Initialize Variables
         let cities = data.cities;
         let points = {};
-        let totalPoints = 170;
         let categories = [
             "CulinaryScene",
             "EscapeRooms",
@@ -381,7 +421,7 @@
         // Adjust Points Manually
         function adjustPoints(cityName, change) {
             points[cityName] += change;
-            totalPoints += change;
+            if (points[cityName] < 0) points[cityName] = 0;
             document.getElementById(`points-${cityName}`).innerText = points[cityName];
             updateValidationMessage();
         }
@@ -389,6 +429,7 @@
         // Update Validation Message
         function updateValidationMessage() {
             const validationMessage = document.getElementById('validation-message');
+            const totalPoints = Object.values(points).reduce((a, b) => a + b, 0);
             if (totalPoints === 170) {
                 validationMessage.innerText = 'Valid distribution';
                 validationMessage.className = 'validation valid';
@@ -412,8 +453,15 @@
             const rightCity = cities[cityIndices[1]];
 
             // Update Descriptions
-            document.getElementById('left-description').innerText = `${category.replace(/([A-Z])/g, ' $1')}\n${leftCity.city}\n\n${leftCity.categories[category]}`;
-            document.getElementById('right-description').innerText = `${category.replace(/([A-Z])/g, ' $1')}\n${rightCity.city}\n\n${rightCity.categories[category]}`;
+            const categoryName = category.replace(/([A-Z])/g, ' $1').trim();
+
+            document.getElementById('left-city-name').innerText = leftCity.city;
+            document.getElementById('left-category').innerText = categoryName;
+            document.getElementById('left-text').innerText = leftCity.categories[category];
+
+            document.getElementById('right-city-name').innerText = rightCity.city;
+            document.getElementById('right-category').innerText = categoryName;
+            document.getElementById('right-text').innerText = rightCity.categories[category];
 
             // Update Images
             updateBackgroundImage('left', leftCity.city, category);
@@ -429,10 +477,10 @@
 
         // Update Background Images
         function updateBackgroundImage(side, cityName, category) {
-            const cityFolder = cityName.replace(/\s+/g, '').toLowerCase();
+            const cityFolder = cityName.replace(/[\s\/]+/g, '').toLowerCase();
             const categoryFolder = category;
             // Simulate checking number of images (Assuming 5 images per category)
-            const numImages = 5; // You can adjust this as needed
+            const numImages = 5; // Adjust this as needed
             const imageNumber = Math.floor(Math.random() * numImages) + 1;
             const imagePath = `${cityFolder}/${categoryFolder}/${imageNumber}.jpg`;
             document.getElementById(`${side}-image`).src = imagePath;
@@ -448,7 +496,6 @@
             if (points[loser] > 0) {
                 points[winner]++;
                 points[loser]--;
-                totalPoints++;
                 updatePointsDisplay(winner);
                 updatePointsDisplay(loser);
                 updateValidationMessage();
@@ -461,6 +508,19 @@
         // Update Points Display
         function updatePointsDisplay(cityName) {
             document.getElementById(`points-${cityName}`).innerText = points[cityName];
+        }
+
+        // Copy Results to Clipboard
+        function copyResults() {
+            let results = '';
+            for (let city of cities) {
+                results += `${city.city}: ${points[city.city]}\n`;
+            }
+            navigator.clipboard.writeText(results).then(() => {
+                alert('Results copied to clipboard!');
+            }, () => {
+                alert('Failed to copy results.');
+            });
         }
 
         // Initialize
