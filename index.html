@@ -2,73 +2,470 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Cities Slideshow</title>
+    <title>Destination Voting</title>
     <style>
-        body, html {
+        body {
+            display: flex;
             margin: 0;
-            padding: 0;
-            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .comparison-pane {
+            width: 40%;
+            position: relative;
+            color: white;
+            text-align: center;
+            cursor: pointer;
             overflow: hidden;
         }
-        #cityImage {
+        .comparison-pane img {
             width: 100%;
-            height: 100%;
+            height: 100vh;
             object-fit: cover;
-            transition: opacity 1s ease-in-out;
-        }
-        #cityName {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: white;
-            font-size: 24px;
-            font-family: Arial, sans-serif;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .comparison-pane .description {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .points-pane {
+            width: 20%;
+            padding: 20px;
+            background: #f4f4f4;
+            overflow-y: auto;
+        }
+        .city-points {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .city-points button {
+            width: 25px;
+            height: 25px;
+        }
+        .validation {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .valid {
+            color: green;
+        }
+        .invalid {
+            color: red;
         }
     </style>
 </head>
 <body>
-    <img id="cityImage" alt="City Image">
-    <div id="cityName"></div>
+
+    <!-- Left Comparison Pane -->
+    <div class="comparison-pane" id="left-pane" onclick="vote('left')">
+        <img id="left-image" src="" alt="Left City">
+        <div class="description" id="left-description"></div>
+    </div>
+
+    <!-- Right Comparison Pane -->
+    <div class="comparison-pane" id="right-pane" onclick="vote('right')">
+        <img id="right-image" src="" alt="Right City">
+        <div class="description" id="right-description"></div>
+    </div>
+
+    <!-- Points Distribution Pane -->
+    <div class="points-pane">
+        <h2>Points Distribution</h2>
+        <div id="points-list"></div>
+        <div class="validation" id="validation-message"></div>
+    </div>
 
     <script>
-        const cities = [
-            "Seoul", "Buenos Aires", "Athens", "Cape Town", "Hong Kong",
-            "Tokyo", "Rio de Janeiro", "Madrid", "Dublin", "Cyprus",
-            "Berlin", "Barcelona", "Rome", "Stockholm", "Vienna",
-            "Budapest", "Osaka", "Munich", "Shanghai"
+        // JSON Data
+        const data = {
+  "cities": [
+    {
+      "city": "Athens",
+      "country": "Greece",
+      "continent": "Europe",
+      "averageTemperature": "24°C",
+      "population": "3.2M",
+      "categories": {
+        "CulinaryScene": "Athens offers a rich culinary experience blending traditional Greek dishes like moussaka and souvlaki with modern gastronomy. The city is dotted with tavernas, street food stalls, and fine dining restaurants.",
+        "EscapeRooms": "Athens boasts a thriving escape room scene with a variety of themes ranging from ancient mythology to futuristic adventures. The city is known for some of the most immersive and challenging escape rooms in Europe.",
+        "NightlifeAndEntertainment": "The nightlife in Athens is vibrant and diverse, featuring rooftop bars with Acropolis views, live music venues, and clubs in areas like Gazi and Psiri that stay open until dawn.",
+        "OutdoorActivitiesAndNature": "Visitors can explore historical sites like the Acropolis, hike up Mount Lycabettus for panoramic views, or relax at the beaches along the Athenian Riviera.",
+        "ClimateAndWeather": "Athens has a Mediterranean climate with hot, dry summers and mild winters, making it suitable for year-round visits.",
+        "AdultEntertainment": "Athens offers various adult entertainment venues including strip clubs and adult theaters. Prostitution is legal and regulated in Greece, but activities are confined to licensed establishments."
+      }
+    },
+    {
+      "city": "Buenos Aires",
+      "country": "Argentina",
+      "continent": "South America",
+      "averageTemperature": "17°C",
+      "population": "15M",
+      "categories": {
+        "CulinaryScene": "Buenos Aires is renowned for its steak houses, offering some of the best beef in the world. The city also has a growing scene of international cuisines and trendy cafés.",
+        "EscapeRooms": "The city has a developing escape room industry with a selection of rooms that often incorporate local history and tango culture into their themes.",
+        "NightlifeAndEntertainment": "Known as the 'Paris of South America,' Buenos Aires has a lively nightlife with tango clubs, bars, and nightclubs that are active well into the early hours.",
+        "OutdoorActivitiesAndNature": "Visitors can enjoy parks like Bosques de Palermo, explore the colorful streets of La Boca, or take boat tours along the Tigre Delta.",
+        "ClimateAndWeather": "The city experiences mild winters and hot summers, with the most pleasant weather in spring and autumn.",
+        "AdultEntertainment": "Buenos Aires has a range of adult entertainment options, including tango shows with sensual performances. Prostitution is illegal but tolerated in certain areas, though it's unregulated."
+      }
+    },
+    {
+      "city": "Hong Kong",
+      "country": "Hong Kong",
+      "continent": "Asia",
+      "averageTemperature": "27°C",
+      "population": "7.5M",
+      "categories": {
+        "CulinaryScene": "Hong Kong is a food paradise offering everything from Michelin-starred restaurants to street food stalls. Dim sum, seafood, and Cantonese cuisine are highlights.",
+        "EscapeRooms": "The city has a robust escape room industry with high-tech rooms and immersive storytelling, catering to both locals and tourists.",
+        "NightlifeAndEntertainment": "Nightlife centers around areas like Lan Kwai Fong and Tsim Sha Tsui, featuring rooftop bars, nightclubs, and night markets.",
+        "OutdoorActivitiesAndNature": "Despite its urban density, Hong Kong offers hiking trails like Dragon's Back, beaches, and outlying islands for nature escapes.",
+        "ClimateAndWeather": "Subtropical climate with hot, humid summers and mild winters. Typhoon season typically runs from May to November.",
+        "AdultEntertainment": "Hong Kong has a variety of adult entertainment venues. Prostitution is legal but organized activities like brothels are illegal."
+      }
+    },
+    {
+      "city": "Cape Town",
+      "country": "South Africa",
+      "continent": "Africa",
+      "averageTemperature": "15°C",
+      "population": "4.6M",
+      "categories": {
+        "CulinaryScene": "Cape Town offers a diverse culinary scene with local specialties like braai and bobotie, alongside international cuisines. The city is also known for its nearby wine regions.",
+        "EscapeRooms": "The city has a modest but growing escape room scene, offering themes that often incorporate local history and adventure.",
+        "NightlifeAndEntertainment": "Nightlife includes trendy bars, jazz clubs, and waterfront venues, particularly around Long Street and the V&A Waterfront.",
+        "OutdoorActivitiesAndNature": "Outdoor enthusiasts can hike Table Mountain, visit Cape Point, or enjoy beaches like Camps Bay and Boulders Beach with its penguin colony.",
+        "ClimateAndWeather": "Mediterranean climate with warm, dry summers and cool, wet winters. Best visited during the summer months.",
+        "AdultEntertainment": "Cape Town has adult entertainment venues including strip clubs. Prostitution is illegal but widely practiced and unregulated."
+      }
+    },
+    {
+      "city": "Shanghai",
+      "country": "China",
+      "continent": "Asia",
+      "averageTemperature": "25°C",
+      "population": "24M",
+      "categories": {
+        "CulinaryScene": "Shanghai offers a blend of traditional Chinese cuisine and international dining. Famous for xiaolongbao (soup dumplings) and seafood.",
+        "EscapeRooms": "The city has a flourishing escape room market with high-tech rooms that often feature intricate puzzles and immersive environments.",
+        "NightlifeAndEntertainment": "Nightlife is vibrant, with options ranging from rooftop bars overlooking the Bund to nightclubs and live music venues.",
+        "OutdoorActivitiesAndNature": "Visitors can stroll along the Bund, explore Yu Garden, or take river cruises. Nearby water towns offer cultural day trips.",
+        "ClimateAndWeather": "Humid subtropical climate with hot, humid summers and cold winters. Typhoon season can affect weather patterns.",
+        "AdultEntertainment": "Shanghai has a variety of adult entertainment options, though prostitution is illegal and activities are underground."
+      }
+    },
+    {
+      "city": "Tokyo",
+      "country": "Japan",
+      "continent": "Asia",
+      "averageTemperature": "24°C",
+      "population": "14M",
+      "categories": {
+        "CulinaryScene": "Tokyo boasts the most Michelin-starred restaurants in the world, offering everything from sushi and ramen to international cuisines.",
+        "EscapeRooms": "The city offers numerous escape rooms with advanced technology and unique themes, including anime and horror.",
+        "NightlifeAndEntertainment": "Nightlife areas like Shibuya, Shinjuku, and Roppongi are packed with bars, clubs, karaoke, and entertainment complexes.",
+        "OutdoorActivitiesAndNature": "Visitors can enjoy parks like Ueno and Yoyogi, visit nearby Mount Takao, or explore coastal areas.",
+        "ClimateAndWeather": "Tokyo has four distinct seasons with hot summers and cool winters. Spring cherry blossoms and autumn foliage are peak times.",
+        "AdultEntertainment": "Tokyo's adult entertainment includes hostess bars, strip clubs, and themed venues. Prostitution is illegal but loopholes exist, and certain services are available in designated areas."
+      }
+    },
+    {
+      "city": "Seoul",
+      "country": "South Korea",
+      "continent": "Asia",
+      "averageTemperature": "21°C",
+      "population": "9.7M",
+      "categories": {
+        "CulinaryScene": "Seoul offers a dynamic food scene with Korean BBQ, street food, and an increasing number of international restaurants.",
+        "EscapeRooms": "The city has a popular escape room industry with themes ranging from historical to futuristic, often incorporating Korean culture.",
+        "NightlifeAndEntertainment": "Areas like Hongdae and Gangnam are famous for nightlife, including clubs, bars, and noraebang (karaoke rooms).",
+        "OutdoorActivitiesAndNature": "Hiking is popular with trails on Bukhansan Mountain, as well as river cruises on the Han River.",
+        "ClimateAndWeather": "Temperate climate with four distinct seasons, including hot, humid summers and cold, snowy winters.",
+        "AdultEntertainment": "Seoul has adult entertainment districts like Gangnam and Itaewon. Prostitution is illegal but occurs in red-light districts."
+      }
+    },
+    {
+      "city": "Madrid",
+      "country": "Spain",
+      "continent": "Europe",
+      "averageTemperature": "20°C",
+      "population": "3.3M",
+      "categories": {
+        "CulinaryScene": "Madrid offers traditional Spanish cuisine like tapas and paella, alongside a burgeoning gastronomic scene with Michelin-starred restaurants.",
+        "EscapeRooms": "The city has numerous escape rooms with a variety of themes, often featuring high production values and storytelling.",
+        "NightlifeAndEntertainment": "Known for its energetic nightlife, Madrid's clubs, bars, and flamenco shows are concentrated in areas like Gran Vía and Malasaña.",
+        "OutdoorActivitiesAndNature": "Visitors can enjoy Retiro Park, visit nearby mountains for hiking, or explore historical sites.",
+        "ClimateAndWeather": "Madrid has a Mediterranean climate with hot summers and cool winters, experiencing plenty of sunshine year-round.",
+        "AdultEntertainment": "Madrid offers adult entertainment including strip clubs and erotic shows. Prostitution is decriminalized but unregulated."
+      }
+    },
+    {
+      "city": "Barcelona",
+      "country": "Spain",
+      "continent": "Europe",
+      "averageTemperature": "21°C",
+      "population": "1.6M",
+      "categories": {
+        "CulinaryScene": "Barcelona is famous for its Catalan cuisine, seafood, and a variety of tapas bars. The city also hosts numerous food markets.",
+        "EscapeRooms": "Boasts some of Europe's best escape rooms, known for creativity and immersion, with themes often inspired by local culture.",
+        "NightlifeAndEntertainment": "Nightlife includes beach clubs, bars in the Gothic Quarter, and live music venues, with a late-night dining culture.",
+        "OutdoorActivitiesAndNature": "Visitors can enjoy beaches, hike in Park Güell, or take day trips to Montserrat Mountain.",
+        "ClimateAndWeather": "Mediterranean climate with warm summers and mild winters, ideal for outdoor activities year-round.",
+        "AdultEntertainment": "Barcelona has a variety of adult entertainment options. Prostitution is decriminalized but lacks regulation, with activities often visible in certain areas."
+      }
+    },
+    {
+      "city": "Dublin",
+      "country": "Ireland",
+      "continent": "Europe",
+      "averageTemperature": "13°C",
+      "population": "1.45M",
+      "categories": {
+        "CulinaryScene": "Dublin offers traditional Irish fare like stews and soda bread, alongside a growing scene of international and modern Irish cuisine.",
+        "EscapeRooms": "The city has several escape rooms with themes ranging from historical mysteries to horror.",
+        "NightlifeAndEntertainment": "Famous for its pub culture, Dublin's Temple Bar area is a hub for live music, bars, and nightlife.",
+        "OutdoorActivitiesAndNature": "Outdoor options include Phoenix Park, coastal walks, and day trips to the Wicklow Mountains.",
+        "ClimateAndWeather": "Temperate maritime climate with mild temperatures but frequent rainfall throughout the year.",
+        "AdultEntertainment": "Dublin has a limited adult entertainment scene. Prostitution is legal but activities like brothel-keeping are illegal."
+      }
+    },
+    {
+      "city": "Cyprus",
+      "country": "Cyprus",
+      "continent": "Europe",
+      "averageTemperature": "25°C",
+      "population": "0.003M",
+      "categories": {
+        "CulinaryScene": "Cyprus offers Mediterranean cuisine with Greek and Middle Eastern influences, including dishes like halloumi and meze platters.",
+        "EscapeRooms": "Escape rooms are available in major towns, offering themes that often incorporate local myths and legends.",
+        "NightlifeAndEntertainment": "Nightlife is concentrated in areas like Ayia Napa, known for its clubs and beach parties.",
+        "OutdoorActivitiesAndNature": "Beautiful beaches, hiking in the Troodos Mountains, and water sports are popular activities.",
+        "ClimateAndWeather": "Mediterranean climate with hot, dry summers and mild winters, ideal for beach activities.",
+        "AdultEntertainment": "Adult entertainment is present in tourist areas. Prostitution is illegal but occurs discreetly."
+      }
+    },
+    {
+      "city": "Rome",
+      "country": "Italy",
+      "continent": "Europe",
+      "averageTemperature": "21°C",
+      "population": "2.8M",
+      "categories": {
+        "CulinaryScene": "Rome is known for its classic Italian dishes like pasta carbonara and Roman-style pizza, with a mix of traditional trattorias and modern eateries.",
+        "EscapeRooms": "The city offers escape rooms with themes that often draw from its rich history and mythology.",
+        "NightlifeAndEntertainment": "Nightlife includes wine bars, clubs, and open-air venues, especially in neighborhoods like Trastevere and Testaccio.",
+        "OutdoorActivitiesAndNature": "Visitors can explore ancient ruins, enjoy Villa Borghese gardens, or take day trips to nearby beaches.",
+        "ClimateAndWeather": "Mediterranean climate with hot summers and mild winters, favorable for tourism most of the year.",
+        "AdultEntertainment": "Rome has adult entertainment options including strip clubs. Prostitution is illegal but tolerated in certain areas."
+      }
+    },
+    {
+      "city": "Budapest",
+      "country": "Hungary",
+      "continent": "Europe",
+      "averageTemperature": "19°C",
+      "population": "1.75M",
+      "categories": {
+        "CulinaryScene": "Budapest offers Hungarian specialties like goulash and chimney cake, as well as a growing number of international restaurants.",
+        "EscapeRooms": "Considered the birthplace of the modern escape room, Budapest has a wide variety of rooms with innovative puzzles.",
+        "NightlifeAndEntertainment": "Known for its ruin bars and vibrant nightlife in districts like Erzsébetváros, offering a unique party scene.",
+        "OutdoorActivitiesAndNature": "Enjoy thermal baths, river cruises on the Danube, and hiking in Buda Hills.",
+        "ClimateAndWeather": "Continental climate with warm summers and cold winters, offering different activities each season.",
+        "AdultEntertainment": "Budapest has a range of adult entertainment venues. Prostitution is legal and regulated, confined to certain zones."
+      }
+    },
+    {
+      "city": "Osaka/Kyoto",
+      "country": "Japan",
+      "continent": "Asia",
+      "averageTemperature": "24°C",
+      "population": "2.7M",
+      "categories": {
+        "CulinaryScene": "Osaka is known as Japan's kitchen, famous for street foods like takoyaki and okonomiyaki. Kyoto offers traditional kaiseki dining and tea ceremonies.",
+        "EscapeRooms": "Both cities have escape rooms, often incorporating high technology and traditional Japanese themes.",
+        "NightlifeAndEntertainment": "Osaka has a lively nightlife with bars and clubs in areas like Dōtonbori, while Kyoto offers a more subdued atmosphere with tea houses and cultural performances.",
+        "OutdoorActivitiesAndNature": "Explore historical temples, bamboo forests in Arashiyama, and Osaka Castle Park.",
+        "ClimateAndWeather": "Humid subtropical climate with hot summers and mild winters. Spring and autumn are ideal for visiting.",
+        "AdultEntertainment": "Osaka has entertainment districts like Dōtonbori with various adult venues. Kyoto's adult entertainment is more discreet. Prostitution is illegal but certain services operate within legal loopholes."
+      }
+    },
+    {
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "continent": "Asia",
+      "averageTemperature": "33°C",
+      "population": "3.3M",
+      "categories": {
+        "CulinaryScene": "Dubai offers a global culinary scene with high-end restaurants featuring international chefs, as well as local Middle Eastern cuisine.",
+        "EscapeRooms": "The city has several escape rooms, often with high production values and advanced technology.",
+        "NightlifeAndEntertainment": "Nightlife includes luxury lounges, beach clubs, and rooftop bars, though regulated under Islamic law.",
+        "OutdoorActivitiesAndNature": "Desert safaris, dune bashing, and visiting the Palm Jumeirah are popular outdoor activities.",
+        "ClimateAndWeather": "Desert climate with extremely hot summers and warm winters. Outdoor activities are best during the cooler months.",
+        "AdultEntertainment": "Adult entertainment is heavily regulated. Prostitution is illegal, and public indecency laws are strict."
+      }
+    },
+    {
+      "city": "Berlin",
+      "country": "Germany",
+      "continent": "Europe",
+      "averageTemperature": "16°C",
+      "population": "3.7M",
+      "categories": {
+        "CulinaryScene": "Berlin offers international cuisines and local favorites like currywurst and schnitzel, with a strong street food culture.",
+        "EscapeRooms": "The city has numerous escape rooms with diverse themes and levels of difficulty, popular among locals and tourists.",
+        "NightlifeAndEntertainment": "Renowned for its nightlife, Berlin features techno clubs, bars, and cultural venues that often stay open for days.",
+        "OutdoorActivitiesAndNature": "Visitors can enjoy parks like Tiergarten, bike along the Berlin Wall, or take boat tours on the Spree River.",
+        "ClimateAndWeather": "Temperate seasonal climate with warm summers and cold winters, suitable for different activities year-round.",
+        "AdultEntertainment": "Berlin has a liberal attitude toward adult entertainment, with venues ranging from strip clubs to fetish clubs. Prostitution is legal and regulated."
+      }
+    },
+    {
+      "city": "Belgrade",
+      "country": "Serbia",
+      "continent": "Europe",
+      "averageTemperature": "18°C",
+      "population": "1.4M",
+      "categories": {
+        "CulinaryScene": "Belgrade offers traditional Serbian cuisine like grilled meats and pastries, along with a variety of international options.",
+        "EscapeRooms": "The city has several escape rooms with themes that often incorporate local history and legends.",
+        "NightlifeAndEntertainment": "Known for its floating river clubs called 'splavovi,' Belgrade's nightlife is vibrant and diverse.",
+        "OutdoorActivitiesAndNature": "Visitors can explore Kalemegdan Fortress, enjoy Ada Ciganlija lake, or cruise along the Danube and Sava rivers.",
+        "ClimateAndWeather": "Moderate continental climate with hot summers and cold winters, offering seasonal activities.",
+        "AdultEntertainment": "Belgrade has adult entertainment venues including strip clubs. Prostitution is illegal but commonly practiced and unregulated."
+      }
+    }
+  ]
+};
+
+        // Initialize Variables
+        let cities = data.cities;
+        let points = {};
+        let totalPoints = 170;
+        let categories = [
+            "CulinaryScene",
+            "EscapeRooms",
+            "NightlifeAndEntertainment",
+            "OutdoorActivitiesAndNature",
+            "ClimateAndWeather",
+            "AdultEntertainment"
         ];
 
-        let currentIndex = 0;
-
-        function getImageUrl(city) {
-            return `https://source.unsplash.com/1600x900/?${encodeURIComponent(city + ' city')}`;
+        // Initialize Points and Points List
+        function initializePoints() {
+            const pointsList = document.getElementById('points-list');
+            pointsList.innerHTML = '';
+            cities.forEach(city => {
+                points[city.city] = 10;
+                const cityDiv = document.createElement('div');
+                cityDiv.className = 'city-points';
+                cityDiv.innerHTML = `
+                    <span>${city.city}</span>
+                    <div>
+                        <button onclick="adjustPoints('${city.city}', 1)">▲</button>
+                        <span id="points-${city.city}">10</span>
+                        <button onclick="adjustPoints('${city.city}', -1)">▼</button>
+                    </div>
+                `;
+                pointsList.appendChild(cityDiv);
+            });
+            updateValidationMessage();
         }
 
-        function changeCity() {
-            const city = cities[currentIndex];
-            const imageUrl = getImageUrl(city);
-            
-            const img = document.getElementById('cityImage');
-            const cityNameElement = document.getElementById('cityName');
-            
-            img.style.opacity = 0;
-            
-            setTimeout(() => {
-                img.src = imageUrl;
-                img.style.opacity = 1;
-                cityNameElement.textContent = city;
-            }, 1000);
-
-            currentIndex = (currentIndex + 1) % cities.length;
+        // Adjust Points Manually
+        function adjustPoints(cityName, change) {
+            points[cityName] += change;
+            totalPoints += change;
+            document.getElementById(`points-${cityName}`).innerText = points[cityName];
+            updateValidationMessage();
         }
 
-        // Initial load
-        changeCity();
+        // Update Validation Message
+        function updateValidationMessage() {
+            const validationMessage = document.getElementById('validation-message');
+            if (totalPoints === 170) {
+                validationMessage.innerText = 'Valid distribution';
+                validationMessage.className = 'validation valid';
+            } else {
+                validationMessage.innerText = `Total points distributed: ${totalPoints}`;
+                validationMessage.className = 'validation invalid';
+            }
+        }
 
-        // Change city every 5 seconds
-        setInterval(changeCity, 5000);
+        // Randomly Select Category and Cities
+        function generateComparison() {
+            const category = categories[Math.floor(Math.random() * categories.length)];
+            let cityIndices = [];
+            while (cityIndices.length < 2) {
+                let index = Math.floor(Math.random() * cities.length);
+                if (!cityIndices.includes(index)) {
+                    cityIndices.push(index);
+                }
+            }
+            const leftCity = cities[cityIndices[0]];
+            const rightCity = cities[cityIndices[1]];
+
+            // Update Descriptions
+            document.getElementById('left-description').innerText = `${category.replace(/([A-Z])/g, ' $1')}\n${leftCity.city}\n\n${leftCity.categories[category]}`;
+            document.getElementById('right-description').innerText = `${category.replace(/([A-Z])/g, ' $1')}\n${rightCity.city}\n\n${rightCity.categories[category]}`;
+
+            // Update Images
+            updateBackgroundImage('left', leftCity.city, category);
+            updateBackgroundImage('right', rightCity.city, category);
+
+            // Store Current Comparison
+            currentComparison = {
+                category: category,
+                leftCity: leftCity.city,
+                rightCity: rightCity.city
+            };
+        }
+
+        // Update Background Images
+        function updateBackgroundImage(side, cityName, category) {
+            const cityFolder = cityName.replace(/\s+/g, '').toLowerCase();
+            const categoryFolder = category;
+            // Simulate checking number of images (Assuming 5 images per category)
+            const numImages = 5; // You can adjust this as needed
+            const imageNumber = Math.floor(Math.random() * numImages) + 1;
+            const imagePath = `${cityFolder}/${categoryFolder}/${imageNumber}.jpg`;
+            document.getElementById(`${side}-image`).src = imagePath;
+        }
+
+        // Handle Voting
+        let currentComparison = {};
+        function vote(side) {
+            const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
+            const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
+
+            // Adjust Points
+            if (points[loser] > 0) {
+                points[winner]++;
+                points[loser]--;
+                totalPoints++;
+                updatePointsDisplay(winner);
+                updatePointsDisplay(loser);
+                updateValidationMessage();
+            }
+
+            // Generate Next Comparison
+            generateComparison();
+        }
+
+        // Update Points Display
+        function updatePointsDisplay(cityName) {
+            document.getElementById(`points-${cityName}`).innerText = points[cityName];
+        }
+
+        // Initialize
+        initializePoints();
+        generateComparison();
     </script>
 </body>
 </html>
