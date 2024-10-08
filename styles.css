@@ -1,4 +1,4 @@
-body, html {
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -10,56 +10,6 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-body > .comparison-pane {
-    width: 40%;
-    position: relative;
-    text-align: center;
-    cursor: pointer;
-    overflow: hidden;
-    color: white;
-    height: 100vh;
-}
-
-body > .comparison-pane > .parallax-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-}
-
-body > .comparison-pane .description {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-}
-
-body > .comparison-pane .description .city-name {
-    font-family: 'Lobster', cursive !important;
-    font-size: 48px !important;
-    margin-bottom: 10px !important;
-    text-shadow: 2px 2px 4px #000 !important;
-}
-
-body > .comparison-pane .description .category {
-    font-family: 'Roboto', sans-serif !important;
-    font-size: 24px !important;
-    margin-bottom: 10px !important;
-    text-shadow: 1px 1px 2px #000 !important;
-}
-
-body > .comparison-pane .description .text {
-    font-family: 'Roboto', sans-serif !important;
-    font-size: 16px !important;
-    line-height: 1.5 !important;
-    text-shadow: 1px 1px 2px #000 !important;
-}
-
 .comparison-pane {
     width: 40%;
     position: relative;
@@ -68,14 +18,6 @@ body > .comparison-pane .description .text {
     overflow: hidden;
     color: white;
     height: 100vh;
-}
-
-.parallax-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -83,36 +25,33 @@ body > .comparison-pane .description .text {
 
 .description {
     position: relative;
-    z-index: 1;
     top: 50%;
     transform: translateY(-50%);
     padding: 20px;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
-/* Ensure text styles are applied */
 .city-name {
-    font-family: 'Lobster', cursive !important;
-    font-size: 48px !important;
-    margin-bottom: 10px !important;
-    text-shadow: 2px 2px 4px #000 !important;
+    font-family: 'Lobster', cursive;
+    font-size: 48px;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px #000;
 }
 
 .category {
-    font-family: 'Roboto', sans-serif !important;
-    font-size: 24px !important;
-    margin-bottom: 10px !important;
-    text-shadow: 1px 1px 2px #000 !important;
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px #000;
 }
 
 .text {
-    font-family: 'Roboto', sans-serif !important;
-    font-size: 16px !important;
-    line-height: 1.5 !important;
-    text-shadow: 1px 1px 2px #000 !important;
+    font-size: 16px;
+    line-height: 1.5;
+    text-shadow: 1px 1px 2px #000;
 }
 
-body > .points-pane {
+.points-pane {
     width: 20%;
     padding: 20px;
     background: #f4f4f4;
@@ -183,5 +122,3 @@ body > .points-pane {
 .reset-button:hover {
     background-color: #da190b;
 }
-
-
