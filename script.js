@@ -53,10 +53,18 @@ $(document).ready(function() {
         console.log('Points after initialization:', points);
 
 
-        generateComparison();
+        setTimeout(() => {
+            generateComparison();
+            buildPointsList();
+            updateValidationMessage();
 
-        buildPointsList();
-        updateValidationMessage();
+            // Force a reflow to trigger image loading
+            $('.comparison-pane').each(function() {
+                this.offsetHeight;
+            });
+
+            setTimeout(loadBackgroundImages, 500);  // Delay loading images
+        }, 1000);  // Delay initialization
 
         const nsfwCheckbox = $(`
             <div class="nsfw-container">
@@ -168,7 +176,7 @@ function updateValidationMessage() {
         };
 
         saveState();
-        loadBackgroundImages();
+        //loadBackgroundImages();
    }
 
 function updateComparisonPane(side, city, category, categoryName) {
@@ -188,6 +196,11 @@ function updateComparisonPane(side, city, category, categoryName) {
        function loadBackgroundImages() {
         updateBackgroundImage('left', currentComparison.leftCity, currentComparison.category);
         updateBackgroundImage('right', currentComparison.rightCity, currentComparison.category);
+
+                 // Force a reflow after setting background images
+        $('.comparison-pane').each(function() {
+            this.offsetHeight;
+        });
     }
 
     function restoreComparison() {
@@ -231,6 +244,8 @@ function updateComparisonPane(side, city, category, categoryName) {
         const randomImage = validImages[Math.floor(Math.random() * validImages.length)];
         console.log('Selected image:', randomImage);  // Add this line for debugging
         setBackgroundImage(`#${side}-pane`, `images/${randomImage}`);
+                $(`#${side}-pane`)[0].offsetHeight;
+
     }
 
     function setBackgroundImage(selector, imagePath) {
@@ -241,7 +256,14 @@ function updateComparisonPane(side, city, category, categoryName) {
             $(this).remove();
             pane.css('background-image', 'none');  // Clear any existing background on the main element
             pane.attr('style', `--bg-image: url(${imagePath})`);
-            pane.find('.animate__animated').addClass('animate__fadeIn');
+            
+            // Delay adding the fade-in class
+            setTimeout(() => {
+                pane.find('.animate__animated').addClass('animate__fadeIn');
+            }, 100);
+
+            // Force a reflow
+            pane[0].offsetHeight;
         }).on('error', function() {
             console.error('Failed to load image:', imagePath);
             // Set a default background if the image fails to load
@@ -285,7 +307,8 @@ window.vote = function(side) {
         alert(`${winner} already has the maximum of 40 points.`);
     }
 
-    generateComparison();
+        setTimeout(generateComparison, 100);  // Delay generating new comparison
+        setTimeout(loadBackgroundImages, 500);  // Delay loading new images
 }
 
     window.copyResults = function() {
