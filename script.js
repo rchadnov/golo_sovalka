@@ -208,17 +208,17 @@ function updateComparisonPane(side, city, category, categoryName) {
 
 function setBackgroundImage(selector, imagePath) {
     const pane = $(selector);
-    pane.css('background-image', 'none');
     pane.find('.animate__animated').removeClass('animate__fadeIn');
     
     $('<img/>').attr('src', imagePath).on('load', function() {
         $(this).remove();
-        pane.find('::before').css({
-            'background-image': `url(${imagePath})`,
-            'opacity': 0
-        }).animate({opacity: 1}, 500);
-        
+        pane.css('background-image', 'none');  // Clear any existing background on the main element
+        pane.attr('style', `--bg-image: url(${imagePath})`);
         pane.find('.animate__animated').addClass('animate__fadeIn');
+    }).on('error', function() {
+        console.error('Failed to load image:', imagePath);
+        // Set a default background if the image fails to load
+        pane.css('background-image', 'url(default.jpeg)');
     });
 }
 
