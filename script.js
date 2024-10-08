@@ -206,13 +206,21 @@ function updateComparisonPane(side, city, category, categoryName) {
         });
     }
 
-    function setBackgroundImage(selector, imagePath) {
-        $(selector).css({
+function setBackgroundImage(selector, imagePath) {
+    const pane = $(selector);
+    pane.css('background-image', 'none');
+    pane.find('.animate__animated').removeClass('animate__fadeIn');
+    
+    $('<img/>').attr('src', imagePath).on('load', function() {
+        $(this).remove();
+        pane.find('::before').css({
             'background-image': `url(${imagePath})`,
-            'background-size': 'cover',
-            'background-position': 'center'
-        });
-    }
+            'opacity': 0
+        }).animate({opacity: 1}, 500);
+        
+        pane.find('.animate__animated').addClass('animate__fadeIn');
+    });
+}
 
     function saveState() {
         localStorage.setItem('points', JSON.stringify(points));
