@@ -64,7 +64,7 @@ $(document).ready(function() {
             });
 
             setTimeout(loadBackgroundImages, 500);  // Delay loading images
-        }, 1000);  // Delay initialization
+        }, 500);  // Delay initialization
 
         const nsfwCheckbox = $(`
             <div class="nsfw-container">
