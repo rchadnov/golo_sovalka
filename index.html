@@ -2,44 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-        <title>Голо совалка</title>
+    <title>Голо совалка</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Roboto&display=swap" rel="stylesheet">
     
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax.js/1.5.0/parallax.min.js"></script>
-
-
     <!-- Animate.css for Text Animations -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <!-- Left Comparison Pane -->
     <div class="comparison-pane" id="left-pane" onclick="vote('left')">
-        <div class="parallax-container" data-parallax="scroll">
-            <div class="description animate__animated">
-                <div class="city-name" id="left-city-name"></div>
-                <div class="category" id="left-category"></div>
-                <div class="text" id="left-text"></div>
-            </div>
+        <div class="description animate__animated">
+            <div class="city-name" id="left-city-name"></div>
+            <div class="category" id="left-category"></div>
+            <div class="text" id="left-text"></div>
         </div>
     </div>
     
     <!-- Right Comparison Pane -->
     <div class="comparison-pane" id="right-pane" onclick="vote('right')">
-        <div class="parallax-container" data-parallax="scroll" data-image-src="">
-            <div class="description animate__animated">
-                <div class="city-name" id="right-city-name"></div>
-                <div class="category" id="right-category"></div>
-                <div class="text" id="right-text"></div>
-            </div>
+        <div class="description animate__animated">
+            <div class="city-name" id="right-city-name"></div>
+            <div class="category" id="right-category"></div>
+            <div class="text" id="right-text"></div>
         </div>
     </div>
-
     <!-- Points Distribution Pane -->
     <div class="points-pane">
         <h2 class="animate__animated animate__fadeInDown">Points Distribution</h2>
@@ -48,7 +39,6 @@
         <button class="copy-button animate__animated animate__fadeInUp" onclick="copyResults()">Copy Results</button>
         <button class="reset-button animate__animated animate__fadeInUp" onclick="resetPoints()">Reset</button>
     </div>
-
     <!-- Custom JavaScript -->
     <script src="script.js"></script>
 </body>
