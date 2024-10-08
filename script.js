@@ -179,8 +179,8 @@ $.getJSON('data.json', function(data) {
             error: function() {
                 console.log(`Image not found: ${imagePath}`);
                 // Use a default image or leave the current image
-                // $(`#${side}-pane .parallax-container`).parallax('destroy');
-                // $(`#${side}-pane .parallax-container`).parallax({ imageSrc: 'path/to/default/image.jpg' });
+                 $(`#${side}-pane .parallax-container`).parallax('destroy');
+                 $(`#${side}-pane .parallax-container`).parallax({ imageSrc: 'default.jpeg' });
             },
             success: function() {
                 console.log(`Image found: ${imagePath}`);
