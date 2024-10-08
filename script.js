@@ -26,6 +26,20 @@ $(document).ready(function() {
         console.log(`Parallax container ${index} dimensions:`, 
             $(this).width(), 'x', $(this).height());
     });
+
+        document.fonts.ready.then(function () {
+        console.log('Fonts are loaded');
+        
+        // Check if Lobster font is applied
+        var cityName = $('#left-city-name');
+        console.log('City name font:', cityName.css('font-family'));
+        console.log('City name font size:', cityName.css('font-size'));
+        
+        // Check if Roboto font is applied
+        var category = $('#left-category');
+        console.log('Category font:', category.css('font-family'));
+        console.log('Category font size:', category.css('font-size'));
+    });
     
 $.getJSON('data.json', function(data) {
     console.log('Data loaded:', data);
