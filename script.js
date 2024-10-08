@@ -180,12 +180,6 @@ $.getJSON('data.json', function(data) {
         localStorage.setItem('currentComparison', JSON.stringify(currentComparison));
     }
 
-
-
-
-});
-
-
 window.adjustPoints = function(cityName, change) {
         points[cityName] += change;
         if (points[cityName] < 0) points[cityName] = 0;
@@ -251,3 +245,9 @@ window.adjustPoints = function(cityName, change) {
             saveState();
         }
     }
+
+
+});
+
+
+
