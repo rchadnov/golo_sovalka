@@ -16,9 +16,6 @@ body {
     cursor: pointer;
     overflow: hidden;
     color: white;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -37,7 +34,9 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    z-index: -1;
     animation: panBackground 60s linear infinite alternate;
+    background-image: var(--bg-image, url(default.jpeg));
 }
 @keyframes panBackground {
     0% {
