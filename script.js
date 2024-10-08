@@ -22,30 +22,38 @@ $.getJSON('data.json', function(data) {
 });
 
     function initialize() {
-            console.log('Initializing...');
-
+        console.log('Initializing...');
+        
+        console.log('Checking localStorage for points...');
         // Initialize points from local storage or set to 10
         if (localStorage.getItem('points')) {
+            console.log('Points found in localStorage');
             points = JSON.parse(localStorage.getItem('points'));
         } else {
+            console.log('Setting default points');
             cities.forEach(city => {
                 points[city.city] = 10;
             });
         }
+        console.log('Points after initialization:', points);
 
+        console.log('Checking localStorage for currentComparison...');
         // Load current comparison from local storage or generate a new one
         if (localStorage.getItem('currentComparison')) {
+            console.log('currentComparison found in localStorage');
             currentComparison = JSON.parse(localStorage.getItem('currentComparison'));
+            console.log('Restoring comparison...');
             restoreComparison();
         } else {
+            console.log('Generating new comparison...');
             generateComparison();
         }
-    console.log('Points before building list:', points);
 
+        console.log('Building points list...');
         buildPointsList();
-            console.log('Points list built');
-
+        console.log('Updating validation message...');
         updateValidationMessage();
+        console.log('Initialization complete');
     }
 
     function buildPointsList() {
