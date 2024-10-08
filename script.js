@@ -11,15 +11,19 @@ const categories = [
 let currentComparison = {};
 
 $(document).ready(function() {
-    // Fetch data from data.json
-    $.getJSON('data.json', function(data) {
-        cities = data.cities; // Assign to global variable
-        initialize(); // Initialize without passing cities
-    }).fail(function() {
-        alert('Failed to load city data.');
-    });
+$.getJSON('data.json', function(data) {
+    console.log('Data loaded:', data);
+    cities = data.cities;
+    console.log('Cities array:', cities);
+    initialize();
+}).fail(function(jqXHR, textStatus, errorThrown) {
+    console.error('Failed to load city data:', textStatus, errorThrown);
+    alert('Failed to load city data.');
+});
 
     function initialize() {
+            console.log('Initializing...');
+
         // Initialize points from local storage or set to 10
         if (localStorage.getItem('points')) {
             points = JSON.parse(localStorage.getItem('points'));
@@ -36,12 +40,17 @@ $(document).ready(function() {
         } else {
             generateComparison();
         }
+    console.log('Points before building list:', points);
 
         buildPointsList();
+            console.log('Points list built');
+
         updateValidationMessage();
     }
 
     function buildPointsList() {
+            console.log('Building points list...');
+
         const pointsList = $('#points-list');
         pointsList.empty();
 
@@ -67,6 +76,8 @@ $(document).ready(function() {
             `);
             pointsList.append(cityDiv);
         });
+            console.log('Points list completed');
+
     }
 
     // Adjust Points Manually
