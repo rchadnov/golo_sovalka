@@ -176,16 +176,16 @@ $.getJSON('data.json', function(data) {
     }
 
 function initializeParallax() {
-    $('.parallax-container').each(function() {
-        $(this).parallax({
-            imageSrc: 'default.jpeg' // Provide a default image path
-        });
-    });
+    // $('.parallax-container').each(function() {
+    //     $(this).parallax({
+    //         imageSrc: 'default.jpeg' // Provide a default image path
+    //     });
+    // });
 }
 
-    function refreshParallax(selector) {
-        $(selector).parallax('refresh');
-    }
+    // function refreshParallax(selector) {
+    //     $(selector).parallax('refresh');
+    // }
 
     function restoreComparison() {
         const leftCity = cities.find(city => city.city === currentComparison.leftCity);
@@ -211,26 +211,35 @@ function updateBackgroundImage(side, cityName, category) {
         error: function() {
             console.log(`Image not found: ${imagePath}`);
             // Use a default image
-            updateParallaxImage(`#${side}-pane .parallax-container`, 'default.jpeg');
+            setBackgroundImage(`#${side}-pane .parallax-container`, 'default.jpeg');
         },
         success: function() {
             console.log(`Image found: ${imagePath}`);
-            updateParallaxImage(`#${side}-pane .parallax-container`, imagePath);
+            setBackgroundImage(`#${side}-pane .parallax-container`, imagePath);
         }
     });
 }
 
-function updateParallaxImage(selector, imagePath) {
+    function setBackgroundImage(selector, imagePath) {
     const $container = $(selector);
-    if ($container.data('parallax')) {
-        $container.parallax('disable');
-        $container.parallax('enable');
-        $container.parallax('refresh');
-        $container.css('background-image', `url(${imagePath})`);
-    } else {
-        $container.parallax({ imageSrc: imagePath });
-    }
+    $container.css({
+        'background-image': `url(${imagePath})`,
+        'background-size': 'cover',
+        'background-position': 'center'
+    });
 }
+
+// function updateParallaxImage(selector, imagePath) {
+//     const $container = $(selector);
+//     if ($container.data('parallax')) {
+//         $container.parallax('disable');
+//         $container.parallax('enable');
+//         $container.parallax('refresh');
+//         $container.css('background-image', `url(${imagePath})`);
+//     } else {
+//         $container.parallax({ imageSrc: imagePath });
+//     }
+// }
 
     // Save State to Local Storage
     function saveState() {
