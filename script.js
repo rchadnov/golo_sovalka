@@ -20,23 +20,24 @@ $(document).ready(function() {
         generateComparison();
     });
         
-    $.getJSON('data.json', function(data) {
-        console.log('Data loaded:', data);
-        cities = data.cities;
+    // Use Promise.all to load both data.json and files.json
+    Promise.all([
+        $.getJSON('data.json'),
+        $.getJSON('files.json')
+    ]).then(function([cityData, fileData]) {
+        console.log('Data loaded:', cityData);
+        cities = cityData.cities;
         console.log('Cities array:', cities);
-        initialize();
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('Failed to load city data:', textStatus, errorThrown);
-        alert('Failed to load city data.');
-    });
-
-    $.getJSON('files.json', function(data) {
-        imageFiles = data;
+        
+        imageFiles = fileData;
         console.log('Image files loaded:', imageFiles);
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('Failed to load image files list:', textStatus, errorThrown);
+        
+        initialize();
+    }).catch(function(error) {
+        console.error('Failed to load data:', error);
+        alert('Failed to load necessary data.');
     });
-
+    
     function initialize() {
         console.log('Initializing...');
         
