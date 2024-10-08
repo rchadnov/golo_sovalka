@@ -73,6 +73,13 @@ $(document).ready(function() {
             </div>
         `);
         $('.points-pane').append(nsfwCheckbox);
+
+            // Attach the event listener after adding the checkbox to the DOM
+    $('#nsfw-checkbox').on('change', function() {
+        nsfwEnabled = this.checked;
+        console.log('NSFW enabled:', nsfwEnabled);  
+        generateComparison();
+    });
         
         console.log('Initialization complete');
     }
