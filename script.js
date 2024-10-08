@@ -167,7 +167,7 @@ $.getJSON('data.json', function(data) {
 
     function updateBackgroundImage(side, cityName, category) {
         const cityFolder = cityName.replace(/[\s\/]+/g, '').toLowerCase();
-        const categoryFolder = category.toLowerCase();
+        const categoryFolder = category;
         const numImages = 5; // Adjust based on actual number of images
         const imageNumber = Math.floor(Math.random() * numImages) + 1;
         const imagePath = `${cityFolder}/${categoryFolder}/${imageNumber}.jpg`;
