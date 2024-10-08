@@ -124,10 +124,10 @@ function updateValidationMessage() {
     let isValid = true;
     let message = '';
 
-    // Check if total points is 170
-    if (totalPoints !== 170) {
+    // Check if total points is 180
+    if (totalPoints !== 180) {
         isValid = false;
-        message = `Total points distributed: ${totalPoints} (should be 170)`;
+        message = `Total points distributed: ${totalPoints} (should be 180)`;
     }
 
     // Check if any city has more than 40 points
