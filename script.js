@@ -57,50 +57,66 @@ $.getJSON('data.json', function(data) {
     }
 
     function buildPointsList() {
-            console.log('Building points list...');
+    const pointsList = $('#points-list');
+    pointsList.empty();
 
-        const pointsList = $('#points-list');
-        pointsList.empty();
+    let citiesWithPoints = cities.map(city => ({
+        city: city.city,
+        points: points[city.city]
+    }));
 
-        let citiesWithPoints = cities.map(city => ({
-            city: city.city,
-            points: points[city.city]
-        }));
+    // Sort the array from highest to lowest points
+    citiesWithPoints.sort((a, b) => b.points - a.points);
 
-        // Sort the array from highest to lowest points
-        citiesWithPoints.sort((a, b) => b.points - a.points);
-
-        // Build the points list
-        citiesWithPoints.forEach(cityData => {
-            const cityDiv = $(`
-                <div class="city-points">
-                    <span>${cityData.city}</span>
-                    <div>
-                        <button onclick="adjustPoints('${cityData.city}', 1)">▲</button>
-                        <span id="points-${cityData.city}">${cityData.points}</span>
-                        <button onclick="adjustPoints('${cityData.city}', -1)">▼</button>
-                    </div>
+    // Build the points list
+    citiesWithPoints.forEach(cityData => {
+        const cityId = cityData.city.replace(/[^a-zA-Z0-9]/g, '_');
+        const cityDiv = $(`
+            <div class="city-points">
+                <span>${cityData.city}</span>
+                <div>
+                    <button onclick="adjustPoints('${cityData.city}', 1)">▲</button>
+                    <span id="points-${cityId}">${cityData.points}</span>
+                    <button onclick="adjustPoints('${cityData.city}', -1)">▼</button>
                 </div>
-            `);
-            pointsList.append(cityDiv);
-        });
-            console.log('Points list completed');
+            </div>
+        `);
+        pointsList.append(cityDiv);
+    });
+}
 
-    }
+window.adjustPoints = function(cityName, change) {
+    points[cityName] += change;
+    if (points[cityName] < 0) points[cityName] = 0;
+    updatePointsDisplay(cityName);
+    updateValidationMessage();
+    buildPointsList();
+    saveState();
+}
 
-    // Adjust Points Manually
-    window.adjustPoints = function(cityName, change) {
-        points[cityName] += change;
-        if (points[cityName] < 0) points[cityName] = 0;
-        updatePointsDisplay(cityName);
+window.vote = function(side) {
+    const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
+    const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
+
+    // Adjust Points
+    if (points[loser] > 0) {
+        points[winner]++;
+        points[loser]--;
+        updatePointsDisplay(winner);
+        updatePointsDisplay(loser);
         updateValidationMessage();
         buildPointsList();
         saveState();
     }
 
-    function updatePointsDisplay(cityName) {
-        $(`#points-${cityName}`).text(points[cityName]);
-    }
+    // Generate Next Comparison
+    generateComparison();
+}
+
+function updatePointsDisplay(cityName) {
+    const cityId = cityName.replace(/[^a-zA-Z0-9]/g, '_');
+    $(`#points-${cityId}`).text(points[cityName]);
+}
 
     function updateValidationMessage() {
         const totalPoints = Object.values(points).reduce((a, b) => a + b, 0);
@@ -195,25 +211,6 @@ function generateComparison() {
         $(`#${side}-pane .parallax-container`).attr('data-image-src', imagePath);
     }
 
-    // Handle Voting
-    window.vote = function(side) {
-        const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
-        const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
-
-        // Adjust Points
-        if (points[loser] > 0) {
-            points[winner]++;
-            points[loser]--;
-            updatePointsDisplay(winner);
-            updatePointsDisplay(loser);
-            updateValidationMessage();
-            buildPointsList();
-            saveState();
-        }
-
-        // Generate Next Comparison
-        generateComparison();
-    }
 
     // Save State to Local Storage
     function saveState() {
