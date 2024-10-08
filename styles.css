@@ -39,23 +39,25 @@ body > .comparison-pane .description {
     z-index: 1;
 }
 
-body > .comparison-pane .city-name {
-    font-family: 'Lobster', cursive;
-    font-size: 48px;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px #000;
+body > .comparison-pane .description .city-name {
+    font-family: 'Lobster', cursive !important;
+    font-size: 48px !important;
+    margin-bottom: 10px !important;
+    text-shadow: 2px 2px 4px #000 !important;
 }
 
-body > .comparison-pane .category {
-    font-size: 24px;
-    margin-bottom: 10px;
-    text-shadow: 1px 1px 2px #000;
+body > .comparison-pane .description .category {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 24px !important;
+    margin-bottom: 10px !important;
+    text-shadow: 1px 1px 2px #000 !important;
 }
 
-body > .comparison-pane .text {
-    font-size: 16px;
-    line-height: 1.5;
-    text-shadow: 1px 1px 2px #000;
+body > .comparison-pane .description .text {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    text-shadow: 1px 1px 2px #000 !important;
 }
 
 body > .points-pane {
