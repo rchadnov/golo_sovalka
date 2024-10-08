@@ -11,6 +11,22 @@ const categories = [
 let currentComparison = {};
 
 $(document).ready(function() {
+
+        console.log('Document ready');
+    console.log('Comparison panes:', $('.comparison-pane').length);
+    console.log('Parallax containers:', $('.parallax-container').length);
+    console.log('Descriptions:', $('.description').length);
+    
+    $('.comparison-pane').each(function(index) {
+        console.log(`Comparison pane ${index} dimensions:`, 
+            $(this).width(), 'x', $(this).height());
+    });
+
+    $('.parallax-container').each(function(index) {
+        console.log(`Parallax container ${index} dimensions:`, 
+            $(this).width(), 'x', $(this).height());
+    });
+    
 $.getJSON('data.json', function(data) {
     console.log('Data loaded:', data);
     cities = data.cities;
