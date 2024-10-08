@@ -32,20 +32,23 @@ body {
     z-index: 1;
 }
 
-.city-name {
+.comparison-pane .description .city-name,
+.comparison-pane .description .city-name.animate__animated {
     font-family: 'Lobster', cursive;
     font-size: 48px;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px #000;
 }
 
-.category {
+.comparison-pane .description .category,
+.comparison-pane .description .category.animate__animated {
     font-size: 24px;
     margin-bottom: 10px;
     text-shadow: 1px 1px 2px #000;
 }
 
-.text {
+.comparison-pane .description .text,
+.comparison-pane .description .text.animate__animated {
     font-size: 16px;
     line-height: 1.5;
     text-shadow: 1px 1px 2px #000;
