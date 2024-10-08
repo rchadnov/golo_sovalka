@@ -4,12 +4,10 @@ html, body {
     padding: 0;
     overflow: hidden;
 }
-
 body {
     display: flex;
     font-family: 'Roboto', sans-serif;
 }
-
 .comparison-pane {
     width: 40%;
     position: relative;
@@ -21,39 +19,35 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
 .description {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.7);
     z-index: 1;
 }
-
 .comparison-pane .description .city-name,
 .comparison-pane .description .city-name.animate__animated {
-    font-family: 'Lobster', cursive;
+    font-family: 'Pacifico', cursive;
     font-size: 48px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     text-shadow: 2px 2px 4px #000;
 }
-
 .comparison-pane .description .category,
 .comparison-pane .description .category.animate__animated {
     font-size: 24px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     text-shadow: 1px 1px 2px #000;
 }
-
 .comparison-pane .description .text,
 .comparison-pane .description .text.animate__animated {
     font-size: 16px;
     line-height: 1.5;
     text-shadow: 1px 1px 2px #000;
 }
-
 .points-pane {
     width: 20%;
     padding: 20px;
@@ -62,14 +56,12 @@ body {
     display: flex;
     flex-direction: column;
 }
-
 .city-points {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
-
 .city-points button {
     width: 25px;
     height: 25px;
@@ -80,24 +72,19 @@ body {
     border-radius: 3px;
     transition: background-color 0.3s;
 }
-
 .city-points button:hover {
     background-color: #bbb;
 }
-
 .validation {
     margin-top: 20px;
     font-weight: bold;
 }
-
 .valid {
     color: green;
 }
-
 .invalid {
     color: red;
 }
-
 .copy-button, .reset-button {
     margin-top: 10px;
     padding: 10px;
@@ -107,21 +94,17 @@ body {
     border-radius: 5px;
     transition: background-color 0.3s;
 }
-
 .copy-button {
     background-color: #4CAF50;
     color: white;
 }
-
 .copy-button:hover {
     background-color: #45a049;
 }
-
 .reset-button {
     background-color: #f44336;
     color: white;
 }
-
 .reset-button:hover {
     background-color: #da190b;
 }
