@@ -5,6 +5,7 @@ const categories = [
     "EscapeRooms",
     "NightlifeAndEntertainment",
     "OutdoorActivitiesAndNature",
+    "ClimateAndWeather",
     "AdultEntertainment"
 ];
 let currentComparison = {};
