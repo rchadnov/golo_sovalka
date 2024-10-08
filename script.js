@@ -9,31 +9,14 @@ const categories = [
     "AdultEntertainment"
 ];
 let currentComparison = {};
+let nsfwEnabled = false;
 
 $(document).ready(function() {
-    console.log('Document ready');
-    console.log('Comparison panes:', $('.comparison-pane').length);
-    console.log('Descriptions:', $('.description').length);
-    
-    $('.comparison-pane').each(function(index) {
-        console.log(`Comparison pane ${index} dimensions:`, 
-            $(this).width(), 'x', $(this).height());
+    $('#nsfw-checkbox').change(function() {
+        nsfwEnabled = this.checked;
+        generateComparison();
     });
-
-    document.fonts.ready.then(function () {
-        console.log('Fonts are loaded');
         
-        // Check if Lobster font is applied
-        var cityName = $('#left-city-name');
-        console.log('City name font:', cityName.css('font-family'));
-        console.log('City name font size:', cityName.css('font-size'));
-        
-        // Check if Roboto font is applied
-        var category = $('#left-category');
-        console.log('Category font:', category.css('font-family'));
-        console.log('Category font size:', category.css('font-size'));
-    });
-    
     $.getJSON('data.json', function(data) {
         console.log('Data loaded:', data);
         cities = data.cities;
@@ -70,6 +53,17 @@ $(document).ready(function() {
 
         buildPointsList();
         updateValidationMessage();
+
+        const nsfwCheckbox = $(`
+            <div class="nsfw-container">
+                <label for="nsfw-checkbox">
+                    <input type="checkbox" id="nsfw-checkbox">
+                    Enable NSFW content
+                </label>
+            </div>
+        `);
+        $('.points-pane').append(nsfwCheckbox);
+        
         console.log('Initialization complete');
     }
 
@@ -136,7 +130,9 @@ function updateValidationMessage() {
 }
 
     function generateComparison() {
-        const category = categories[Math.floor(Math.random() * categories.length)];
+        let availableCategories = nsfwEnabled ? categories : categories.filter(cat => cat !== "AdultEntertainment");
+        const category = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+
         let cityIndices = [];
         while (cityIndices.length < 2) {
             let index = Math.floor(Math.random() * cities.length);
@@ -186,6 +182,11 @@ function updateComparisonPane(side, city, category, categoryName) {
     }
 
     function updateBackgroundImage(side, cityName, category) {
+        
+        if (category === "AdultEntertainment" && !nsfwEnabled) {
+            setBackgroundImage(`#${side}-pane`, 'default.jpeg');
+            return;
+        }
         const cityFolder = cityName.replace(/[\s\/]+/g, '').toLowerCase();
         const categoryFolder = category;
         const numImages = 5;
