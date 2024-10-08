@@ -141,13 +141,19 @@ $(document).ready(function() {
         saveState();
     }
 
-    function updateComparisonPane(side, city, category, categoryName) {
-        $(`#${side}-city-name`).text(city.city).removeClass().addClass('animate__animated animate__fadeIn');
-        $(`#${side}-category`).text(categoryName).removeClass().addClass('animate__animated animate__fadeIn');
-        $(`#${side}-text`).text(city.categories[category]).removeClass().addClass('animate__animated animate__fadeIn');
+function updateComparisonPane(side, city, category, categoryName) {
+    $(`#${side}-city-name`)
+        .text(city.city)
+        .addClass('animate__animated animate__fadeIn');
+    $(`#${side}-category`)
+        .text(categoryName)
+        .addClass('animate__animated animate__fadeIn');
+    $(`#${side}-text`)
+        .text(city.categories[category])
+        .addClass('animate__animated animate__fadeIn');
 
-        updateBackgroundImage(side, city.city, category);
-    }
+    updateBackgroundImage(side, city.city, category);
+}
 
     function restoreComparison() {
         const leftCity = cities.find(city => city.city === currentComparison.leftCity);
