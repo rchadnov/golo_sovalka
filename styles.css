@@ -20,7 +20,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     user-select: none;
     -webkit-user-select: none;
@@ -29,50 +29,35 @@ body {
 }
 .description {
     width: 100%;
-    height: 100%;
+    height: 34%; /* Cover bottom third (100% - 66%) */
     padding: 20px;
     background: rgba(0, 0, 0, 0.7);
     z-index: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    justify-content: flex-start;
+    overflow-y: auto;
 }
 .comparison-pane .description .city-name,
 .comparison-pane .description .city-name.animate__animated {
     font-family: 'Pacifico', cursive;
-    font-size: 48px;
-    margin-bottom: 15px;
+    font-size: 36px;
+    margin-bottom: 10px;
     text-shadow: 2px 2px 4px #000;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 }
 .comparison-pane .description .category,
 .comparison-pane .description .category.animate__animated {
-    font-size: 24px;
-    margin-bottom: 15px;
+    font-size: 20px;
+    margin-bottom: 10px;
     text-shadow: 1px 1px 2px #000;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 }
 .comparison-pane .description .text,
 .comparison-pane .description .text.animate__animated {
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.4;
     text-shadow: 1px 1px 2px #000;
     overflow-y: auto;
     flex-grow: 1;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 }
 .points-pane {
     width: 20%;
@@ -81,20 +66,12 @@ body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 }
 .city-points {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 }
 .city-points button {
     width: 25px;
@@ -105,10 +82,6 @@ body {
     font-size: 16px;
     border-radius: 3px;
     transition: background-color 0.3s;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 }
 .city-points button:hover {
     background-color: #bbb;
