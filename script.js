@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    let cities = []; // Global declaration
     let points = {};
     const categories = [
         "CulinaryScene",
@@ -12,13 +13,13 @@ $(document).ready(function() {
 
     // Fetch data from data.json
     $.getJSON('data.json', function(data) {
-        let cities = data.cities;
-        initialize(cities);
+        cities = data.cities; // Assign to global variable
+        initialize(); // Initialize without passing cities
     }).fail(function() {
         alert('Failed to load city data.');
     });
 
-    function initialize(cities) {
+    function initialize() {
         // Initialize points from local storage or set to 10
         if (localStorage.getItem('points')) {
             points = JSON.parse(localStorage.getItem('points'));
@@ -31,16 +32,16 @@ $(document).ready(function() {
         // Load current comparison from local storage or generate a new one
         if (localStorage.getItem('currentComparison')) {
             currentComparison = JSON.parse(localStorage.getItem('currentComparison'));
-            restoreComparison(cities);
+            restoreComparison();
         } else {
-            generateComparison(cities);
+            generateComparison();
         }
 
-        buildPointsList(cities);
+        buildPointsList();
         updateValidationMessage();
     }
 
-    function buildPointsList(cities) {
+    function buildPointsList() {
         const pointsList = $('#points-list');
         pointsList.empty();
 
@@ -72,7 +73,7 @@ $(document).ready(function() {
         if (points[cityName] < 0) points[cityName] = 0;
         updatePointsDisplay(cityName);
         updateValidationMessage();
-        buildPointsList(cities);
+        buildPointsList();
         saveState();
     }
 
@@ -90,7 +91,7 @@ $(document).ready(function() {
         }
     }
 
-    function generateComparison(cities) {
+    function generateComparison() {
         const category = categories[Math.floor(Math.random() * categories.length)];
         let cityIndices = [];
         while (cityIndices.length < 2) {
@@ -104,13 +105,13 @@ $(document).ready(function() {
 
         const categoryName = category.replace(/([A-Z])/g, ' $1').trim();
 
-        $('#left-city-name').text(leftCity.city).addClass('animate__fadeInLeft');
-        $('#left-category').text(categoryName).addClass('animate__fadeInLeft');
-        $('#left-text').text(leftCity.categories[category]).addClass('animate__fadeInLeft');
+        $('#left-city-name').text(leftCity.city).removeClass().addClass('animate__animated animate__fadeInLeft');
+        $('#left-category').text(categoryName).removeClass().addClass('animate__animated animate__fadeInLeft');
+        $('#left-text').text(leftCity.categories[category]).removeClass().addClass('animate__animated animate__fadeInLeft');
 
-        $('#right-city-name').text(rightCity.city).addClass('animate__fadeInRight');
-        $('#right-category').text(categoryName).addClass('animate__fadeInRight');
-        $('#right-text').text(rightCity.categories[category]).addClass('animate__fadeInRight');
+        $('#right-city-name').text(rightCity.city).removeClass().addClass('animate__animated animate__fadeInRight');
+        $('#right-category').text(categoryName).removeClass().addClass('animate__animated animate__fadeInRight');
+        $('#right-text').text(rightCity.categories[category]).removeClass().addClass('animate__animated animate__fadeInRight');
 
         // Update Images
         updateBackgroundImage('left', leftCity.city, category);
@@ -134,19 +135,19 @@ $(document).ready(function() {
         saveState();
     }
 
-    function restoreComparison(cities) {
+    function restoreComparison() {
         const leftCity = cities.find(city => city.city === currentComparison.leftCity);
         const rightCity = cities.find(city => city.city === currentComparison.rightCity);
         const category = currentComparison.category;
         const categoryName = category.replace(/([A-Z])/g, ' $1').trim();
 
-        $('#left-city-name').text(leftCity.city).addClass('animate__fadeInLeft');
-        $('#left-category').text(categoryName).addClass('animate__fadeInLeft');
-        $('#left-text').text(leftCity.categories[category]).addClass('animate__fadeInLeft');
+        $('#left-city-name').text(leftCity.city).removeClass().addClass('animate__animated animate__fadeInLeft');
+        $('#left-category').text(categoryName).removeClass().addClass('animate__animated animate__fadeInLeft');
+        $('#left-text').text(leftCity.categories[category]).removeClass().addClass('animate__animated animate__fadeInLeft');
 
-        $('#right-city-name').text(rightCity.city).addClass('animate__fadeInRight');
-        $('#right-category').text(categoryName).addClass('animate__fadeInRight');
-        $('#right-text').text(rightCity.categories[category]).addClass('animate__fadeInRight');
+        $('#right-city-name').text(rightCity.city).removeClass().addClass('animate__animated animate__fadeInRight');
+        $('#right-category').text(categoryName).removeClass().addClass('animate__animated animate__fadeInRight');
+        $('#right-text').text(rightCity.categories[category]).removeClass().addClass('animate__animated animate__fadeInRight');
 
         // Update Images
         updateBackgroundImage('left', leftCity.city, category);
@@ -181,12 +182,12 @@ $(document).ready(function() {
             updatePointsDisplay(winner);
             updatePointsDisplay(loser);
             updateValidationMessage();
-            buildPointsList(cities);
+            buildPointsList();
             saveState();
         }
 
         // Generate Next Comparison
-        generateComparison(cities);
+        generateComparison();
     }
 
     // Save State to Local Storage
@@ -201,7 +202,7 @@ $(document).ready(function() {
             localStorage.clear();
             points = {};
             currentComparison = {};
-            initialize(cities);
+            initialize();
         }
     }
 
