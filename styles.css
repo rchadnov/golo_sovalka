@@ -133,8 +133,3 @@ body > .points-pane {
 }
 
 
-.comparison-pane { border: 2px solid red; }
-.parallax-container { border: 2px solid blue; }
-.description { border: 2px solid green; }
-.city-name, .category, .text { border: 1px solid yellow; }
-.points-pane { border: 2px solid purple; }
