@@ -145,11 +145,13 @@ $.getJSON('data.json', function(data) {
         refreshParallax(`#${side}-pane .parallax-container`);
     }
 
-    function initializeParallax() {
-        $('.parallax-container').parallax({
+function initializeParallax() {
+    $('.parallax-container').each(function() {
+        $(this).parallax({
             imageSrc: 'default.jpeg' // Provide a default image path
         });
-    }
+    });
+}
 
     function refreshParallax(selector) {
         $(selector).parallax('refresh');
@@ -165,32 +167,40 @@ $.getJSON('data.json', function(data) {
         updateComparisonPane('right', rightCity, category, categoryName);
     }
 
-    function updateBackgroundImage(side, cityName, category) {
-        const cityFolder = cityName.replace(/[\s\/]+/g, '').toLowerCase();
-        const categoryFolder = category;
-        const numImages = 5; // Adjust based on actual number of images
-        const imageNumber = Math.floor(Math.random() * numImages) + 1;
-        const imagePath = `${cityFolder}/${categoryFolder}/${imageNumber}.jpg`;
+function updateBackgroundImage(side, cityName, category) {
+    const cityFolder = cityName.replace(/[\s\/]+/g, '').toLowerCase();
+    const categoryFolder = category;
+    const numImages = 5; // Adjust based on actual number of images
+    const imageNumber = Math.floor(Math.random() * numImages) + 1;
+    const imagePath = `${cityFolder}/${categoryFolder}/${imageNumber}.jpg`;
 
-        // Check if the image exists
-        $.ajax({
-            url: imagePath,
-            type: 'HEAD',
-            error: function() {
-                console.log(`Image not found: ${imagePath}`);
-                // Use a default image or leave the current image
-                 $(`#${side}-pane .parallax-container`).parallax('destroy');
-                 $(`#${side}-pane .parallax-container`).parallax({ imageSrc: 'default.jpeg' });
-            },
-            success: function() {
-                console.log(`Image found: ${imagePath}`);
-                $(`#${side}-pane .parallax-container`).parallax('destroy');
-                $(`#${side}-pane .parallax-container`).parallax({ imageSrc: imagePath });
-            }
-        });
+    // Check if the image exists
+    $.ajax({
+        url: imagePath,
+        type: 'HEAD',
+        error: function() {
+            console.log(`Image not found: ${imagePath}`);
+            // Use a default image
+            updateParallaxImage(`#${side}-pane .parallax-container`, 'default.jpeg');
+        },
+        success: function() {
+            console.log(`Image found: ${imagePath}`);
+            updateParallaxImage(`#${side}-pane .parallax-container`, imagePath);
+        }
+    });
+}
+
+function updateParallaxImage(selector, imagePath) {
+    const $container = $(selector);
+    if ($container.data('parallax')) {
+        $container.parallax('disable');
+        $container.parallax('enable');
+        $container.parallax('refresh');
+        $container.css('background-image', `url(${imagePath})`);
+    } else {
+        $container.parallax({ imageSrc: imagePath });
     }
-
-
+}
 
     // Save State to Local Storage
     function saveState() {
