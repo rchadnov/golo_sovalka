@@ -112,49 +112,53 @@ $.getJSON('data.json', function(data) {
         }
     }
 
-    function generateComparison() {
-        const category = categories[Math.floor(Math.random() * categories.length)];
-        let cityIndices = [];
-        while (cityIndices.length < 2) {
-            let index = Math.floor(Math.random() * cities.length);
-            if (!cityIndices.includes(index)) {
-                cityIndices.push(index);
-            }
+function generateComparison() {
+    const category = categories[Math.floor(Math.random() * categories.length)];
+    let cityIndices = [];
+    while (cityIndices.length < 2) {
+        let index = Math.floor(Math.random() * cities.length);
+        if (!cityIndices.includes(index)) {
+            cityIndices.push(index);
         }
-        const leftCity = cities[cityIndices[0]];
-        const rightCity = cities[cityIndices[1]];
+    }
+    const leftCity = cities[cityIndices[0]];
+    const rightCity = cities[cityIndices[1]];
 
-        const categoryName = category.replace(/([A-Z])/g, ' $1').trim();
+    const categoryName = category.replace(/([A-Z])/g, ' $1').trim();
 
-        $('#left-city-name').text(leftCity.city).removeClass().addClass('animate__animated animate__fadeInLeft');
-        $('#left-category').text(categoryName).removeClass().addClass('animate__animated animate__fadeInLeft');
-        $('#left-text').text(leftCity.categories[category]).removeClass().addClass('animate__animated animate__fadeInLeft');
+    $('#left-city-name').text(leftCity.city).removeClass().addClass('animate__animated animate__fadeInLeft');
+    $('#left-category').text(categoryName).removeClass().addClass('animate__animated animate__fadeInLeft');
+    $('#left-text').text(leftCity.categories[category]).removeClass().addClass('animate__animated animate__fadeInLeft');
 
-        $('#right-city-name').text(rightCity.city).removeClass().addClass('animate__animated animate__fadeInRight');
-        $('#right-category').text(categoryName).removeClass().addClass('animate__animated animate__fadeInRight');
-        $('#right-text').text(rightCity.categories[category]).removeClass().addClass('animate__animated animate__fadeInRight');
+    $('#right-city-name').text(rightCity.city).removeClass().addClass('animate__animated animate__fadeInRight');
+    $('#right-category').text(categoryName).removeClass().addClass('animate__animated animate__fadeInRight');
+    $('#right-text').text(rightCity.categories[category]).removeClass().addClass('animate__animated animate__fadeInRight');
 
-        // Update Images
-        updateBackgroundImage('left', leftCity.city, category);
-        updateBackgroundImage('right', rightCity.city, category);
+    // Update Images
+    updateBackgroundImage('left', leftCity.city, category);
+    updateBackgroundImage('right', rightCity.city, category);
 
-        // Initialize Parallax
+    // Initialize Parallax if available
+    if (typeof Parallax !== 'undefined') {
         $('.parallax-container').each(function() {
             if (!$(this).data('plugin_parallax')) {
                 new Parallax(this);
             }
         });
-
-        // Store Current Comparison
-        currentComparison = {
-            category: category,
-            leftCity: leftCity.city,
-            rightCity: rightCity.city
-        };
-
-        // Save state
-        saveState();
+    } else {
+        console.warn('Parallax library not loaded. Skipping parallax initialization.');
     }
+
+    // Store Current Comparison
+    currentComparison = {
+        category: category,
+        leftCity: leftCity.city,
+        rightCity: rightCity.city
+    };
+
+    // Save state
+    saveState();
+}
 
     function restoreComparison() {
         const leftCity = cities.find(city => city.city === currentComparison.leftCity);
