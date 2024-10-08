@@ -1,27 +1,16 @@
-body::before {
-  content: 'CSS loaded';
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: red;
-  color: white;
-  padding: 5px;
-  z-index: 9999;
-}
-
-html, body {
+body, html {
     height: 100%;
     margin: 0;
+    padding: 0;
     overflow: hidden;
 }
 
 body {
     display: flex;
     font-family: 'Roboto', sans-serif;
-    height: 100vh;
 }
 
-.comparison-pane {
+body > .comparison-pane {
     width: 40%;
     position: relative;
     text-align: center;
@@ -31,42 +20,45 @@ body {
     height: 100vh;
 }
 
-.parallax-container {
+body > .comparison-pane > .parallax-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background-size: cover;
+    background-position: center;
 }
 
-.description {
+body > .comparison-pane .description {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
     padding: 20px;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
-.city-name {
+body > .comparison-pane .city-name {
     font-family: 'Lobster', cursive;
     font-size: 48px;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px #000;
 }
 
-.category {
+body > .comparison-pane .category {
     font-size: 24px;
     margin-bottom: 10px;
     text-shadow: 1px 1px 2px #000;
 }
 
-.text {
+body > .comparison-pane .text {
     font-size: 16px;
     line-height: 1.5;
     text-shadow: 1px 1px 2px #000;
 }
 
-.points-pane {
+body > .points-pane {
     width: 20%;
     padding: 20px;
     background: #f4f4f4;
@@ -137,3 +129,10 @@ body {
 .reset-button:hover {
     background-color: #da190b;
 }
+
+
+.comparison-pane { border: 2px solid red; }
+.parallax-container { border: 2px solid blue; }
+.description { border: 2px solid green; }
+.city-name, .category, .text { border: 1px solid yellow; }
+.points-pane { border: 2px solid purple; }
