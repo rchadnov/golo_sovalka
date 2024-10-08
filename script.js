@@ -1,5 +1,7 @@
-let cities = []; // Global declaration
+let cities = []; 
 let points = {};
+let imageFiles = []; 
+
 const categories = [
     "CulinaryScene",
     "EscapeRooms",
@@ -199,7 +201,7 @@ function updateComparisonPane(side, city, category, categoryName) {
             if (nsfwEnabled) {
                 validImages = validImages.filter(file => file.includes('nsfw'));
             } else {
-                setBackgroundImage(`#${side}-pane`, 'images/default.jpeg');
+                setBackgroundImage(`#${side}-pane`, 'default.jpeg');
                 return;
             }
         } else {
@@ -207,7 +209,7 @@ function updateComparisonPane(side, city, category, categoryName) {
         }
 
         if (validImages.length === 0) {
-            setBackgroundImage(`#${side}-pane`, 'images/default.jpeg');
+            setBackgroundImage(`#${side}-pane`, 'default.jpeg');
             return;
         }
 
@@ -227,7 +229,7 @@ function updateComparisonPane(side, city, category, categoryName) {
         }).on('error', function() {
             console.error('Failed to load image:', imagePath);
             // Set a default background if the image fails to load
-            pane.css('background-image', 'url(images/default.jpeg)');
+            pane.css('background-image', 'url(default.jpeg)');
         });
     }
 
