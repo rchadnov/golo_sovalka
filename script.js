@@ -105,15 +105,35 @@ $(document).ready(function() {
         $(`#points-${cityId}`).text(points[cityName]);
     }
 
-    function updateValidationMessage() {
-        const totalPoints = Object.values(points).reduce((a, b) => a + b, 0);
-        const validationMessage = $('#validation-message');
-        if (totalPoints === 170) {
-            validationMessage.text('Valid distribution').removeClass('invalid').addClass('valid');
-        } else {
-            validationMessage.text(`Total points distributed: ${totalPoints}`).removeClass('valid').addClass('invalid');
+function updateValidationMessage() {
+    const totalPoints = Object.values(points).reduce((a, b) => a + b, 0);
+    const validationMessage = $('#validation-message');
+    const maxPointsPerCity = 40;
+    
+    let isValid = true;
+    let message = '';
+
+    // Check if total points is 170
+    if (totalPoints !== 170) {
+        isValid = false;
+        message = `Total points distributed: ${totalPoints} (should be 170)`;
+    }
+
+    // Check if any city has more than 40 points
+    for (let city in points) {
+        if (points[city] > maxPointsPerCity) {
+            isValid = false;
+            message += message ? ' and ' : '';
+            message += `${city} has ${points[city]} points (max ${maxPointsPerCity})`;
         }
     }
+
+    if (isValid) {
+        validationMessage.text('Valid distribution').removeClass('invalid').addClass('valid');
+    } else {
+        validationMessage.text(message).removeClass('valid').addClass('invalid');
+    }
+}
 
     function generateComparison() {
         const category = categories[Math.floor(Math.random() * categories.length)];
@@ -199,31 +219,39 @@ function updateComparisonPane(side, city, category, categoryName) {
         localStorage.setItem('currentComparison', JSON.stringify(currentComparison));
     }
 
-    window.adjustPoints = function(cityName, change) {
-        points[cityName] += change;
-        if (points[cityName] < 0) points[cityName] = 0;
+// Update the adjustPoints function to prevent exceeding 40 points
+window.adjustPoints = function(cityName, change) {
+    const newPoints = points[cityName] + change;
+    if (newPoints >= 0 && newPoints <= 40) {
+        points[cityName] = newPoints;
         updatePointsDisplay(cityName);
         updateValidationMessage();
         buildPointsList();
         saveState();
+    } else {
+        alert(`Points for ${cityName} must be between 0 and 40.`);
+    }
+}
+
+// Update the vote function to prevent exceeding 40 points
+window.vote = function(side) {
+    const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
+    const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
+
+    if (points[loser] > 0 && points[winner] < 40) {
+        points[winner]++;
+        points[loser]--;
+        updatePointsDisplay(winner);
+        updatePointsDisplay(loser);
+        updateValidationMessage();
+        buildPointsList();
+        saveState();
+    } else if (points[winner] >= 40) {
+        alert(`${winner} already has the maximum of 40 points.`);
     }
 
-    window.vote = function(side) {
-        const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
-        const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
-
-        if (points[loser] > 0) {
-            points[winner]++;
-            points[loser]--;
-            updatePointsDisplay(winner);
-            updatePointsDisplay(loser);
-            updateValidationMessage();
-            buildPointsList();
-            saveState();
-        }
-
-        generateComparison();
-    }
+    generateComparison();
+}
 
     window.copyResults = function() {
         let resultsArray = [];
