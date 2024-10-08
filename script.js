@@ -1,16 +1,16 @@
-$(document).ready(function() {
-    let cities = []; // Global declaration
-    let points = {};
-    const categories = [
-        "CulinaryScene",
-        "EscapeRooms",
-        "NightlifeAndEntertainment",
-        "OutdoorActivitiesAndNature",
-        "ClimateAndWeather",
-        "AdultEntertainment"
-    ];
-    let currentComparison = {};
+let cities = []; // Global declaration
+let points = {};
+const categories = [
+    "CulinaryScene",
+    "EscapeRooms",
+    "NightlifeAndEntertainment",
+    "OutdoorActivitiesAndNature",
+    "ClimateAndWeather",
+    "AdultEntertainment"
+];
+let currentComparison = {};
 
+$(document).ready(function() {
     // Fetch data from data.json
     $.getJSON('data.json', function(data) {
         cities = data.cities; // Assign to global variable
@@ -50,8 +50,10 @@ $(document).ready(function() {
             points: points[city.city]
         }));
 
+        // Sort the array from highest to lowest points
         citiesWithPoints.sort((a, b) => b.points - a.points);
 
+        // Build the points list
         citiesWithPoints.forEach(cityData => {
             const cityDiv = $(`
                 <div class="city-points">
@@ -84,7 +86,7 @@ $(document).ready(function() {
     function updateValidationMessage() {
         const totalPoints = Object.values(points).reduce((a, b) => a + b, 0);
         const validationMessage = $('#validation-message');
-        if (totalPoints === 170) {
+        if (totalPoints === 170) { // Assuming 17 cities * 10 points each
             validationMessage.text('Valid distribution').removeClass('invalid').addClass('valid');
         } else {
             validationMessage.text(`Total points distributed: ${totalPoints}`).removeClass('valid').addClass('invalid');
@@ -166,7 +168,7 @@ $(document).ready(function() {
         const categoryFolder = category;
         const numImages = 5; // Adjust based on actual number of images
         const imageNumber = Math.floor(Math.random() * numImages) + 1;
-        const imagePath = `images/${cityFolder}/${categoryFolder}/${imageNumber}.jpg`;
+        const imagePath = `${cityFolder}/${categoryFolder}/${imageNumber}.jpg`;
         $(`#${side}-pane .parallax-container`).attr('data-image-src', imagePath);
     }
 
