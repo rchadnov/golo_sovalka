@@ -80,4 +80,63 @@ body {
     overflow-y: auto;
     flex-grow: 1;
 }
-/* ... rest of the CSS remains the same ... */
+.points-pane {
+    width: 20%;
+    padding: 20px;
+    background: #f4f4f4;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+.city-points {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.city-points button {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-color: #ddd;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+.city-points button:hover {
+    background-color: #bbb;
+}
+.validation {
+    margin-top: 20px;
+    font-weight: bold;
+}
+.valid {
+    color: green;
+}
+.invalid {
+    color: red;
+}
+.copy-button, .reset-button {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.copy-button {
+    background-color: #4CAF50;
+    color: white;
+}
+.copy-button:hover {
+    background-color: #45a049;
+}
+.reset-button {
+    background-color: #f44336;
+    color: white;
+}
+.reset-button:hover {
+    background-color: #da190b;
+}
