@@ -27,6 +27,13 @@ $(document).ready(function() {
         alert('Failed to load city data.');
     });
 
+    $.getJSON('files.json', function(data) {
+        imageFiles = data;
+        console.log('Image files loaded:', imageFiles);
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error('Failed to load image files list:', textStatus, errorThrown);
+    });
+
     function initialize() {
         console.log('Initializing...');
         
@@ -182,46 +189,47 @@ function updateComparisonPane(side, city, category, categoryName) {
     }
 
     function updateBackgroundImage(side, cityName, category) {
-        
-        if (category === "AdultEntertainment" && !nsfwEnabled) {
-            setBackgroundImage(`#${side}-pane`, 'default.jpeg');
+        const cityFolder = cityName.replace(/[\s\/]+/g, '').toLowerCase();
+        let validImages = imageFiles.filter(file => 
+            file.startsWith(`${cityFolder}_`) && 
+            (nsfwEnabled || !file.includes('nsfw'))
+        );
+
+        if (category === "AdultEntertainment") {
+            if (nsfwEnabled) {
+                validImages = validImages.filter(file => file.includes('nsfw'));
+            } else {
+                setBackgroundImage(`#${side}-pane`, 'images/default.jpeg');
+                return;
+            }
+        } else {
+            validImages = validImages.filter(file => !file.includes('nsfw'));
+        }
+
+        if (validImages.length === 0) {
+            setBackgroundImage(`#${side}-pane`, 'images/default.jpeg');
             return;
         }
-        const cityFolder = cityName.replace(/[\s\/]+/g, '').toLowerCase();
-        const categoryFolder = category;
-        const numImages = 5;
-        const imageNumber = Math.floor(Math.random() * numImages) + 1;
-        const imagePath = `${cityFolder}/${categoryFolder}/${imageNumber}.jpg`;
 
-        $.ajax({
-            url: imagePath,
-            type: 'HEAD',
-            error: function() {
-                console.log(`Image not found: ${imagePath}`);
-                setBackgroundImage(`#${side}-pane`, 'default.jpeg');
-            },
-            success: function() {
-                console.log(`Image found: ${imagePath}`);
-                setBackgroundImage(`#${side}-pane`, imagePath);
-            }
-        });
+        const randomImage = validImages[Math.floor(Math.random() * validImages.length)];
+        setBackgroundImage(`#${side}-pane`, `images/${randomImage}`);
     }
 
-function setBackgroundImage(selector, imagePath) {
-    const pane = $(selector);
-    pane.find('.animate__animated').removeClass('animate__fadeIn');
-    
-    $('<img/>').attr('src', imagePath).on('load', function() {
-        $(this).remove();
-        pane.css('background-image', 'none');  // Clear any existing background on the main element
-        pane.attr('style', `--bg-image: url(${imagePath})`);
-        pane.find('.animate__animated').addClass('animate__fadeIn');
-    }).on('error', function() {
-        console.error('Failed to load image:', imagePath);
-        // Set a default background if the image fails to load
-        pane.css('background-image', 'url(default.jpeg)');
-    });
-}
+    function setBackgroundImage(selector, imagePath) {
+        const pane = $(selector);
+        pane.find('.animate__animated').removeClass('animate__fadeIn');
+        
+        $('<img/>').attr('src', imagePath).on('load', function() {
+            $(this).remove();
+            pane.css('background-image', 'none');  // Clear any existing background on the main element
+            pane.attr('style', `--bg-image: url(${imagePath})`);
+            pane.find('.animate__animated').addClass('animate__fadeIn');
+        }).on('error', function() {
+            console.error('Failed to load image:', imagePath);
+            // Set a default background if the image fails to load
+            pane.css('background-image', 'url(images/default.jpeg)');
+        });
+    }
 
     function saveState() {
         localStorage.setItem('points', JSON.stringify(points));
