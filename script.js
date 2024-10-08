@@ -57,66 +57,66 @@ $.getJSON('data.json', function(data) {
     }
 
     function buildPointsList() {
-    const pointsList = $('#points-list');
-    pointsList.empty();
+        const pointsList = $('#points-list');
+        pointsList.empty();
 
-    let citiesWithPoints = cities.map(city => ({
-        city: city.city,
-        points: points[city.city]
-    }));
+        let citiesWithPoints = cities.map(city => ({
+            city: city.city,
+            points: points[city.city]
+        }));
 
-    // Sort the array from highest to lowest points
-    citiesWithPoints.sort((a, b) => b.points - a.points);
+        // Sort the array from highest to lowest points
+        citiesWithPoints.sort((a, b) => b.points - a.points);
 
-    // Build the points list
-    citiesWithPoints.forEach(cityData => {
-        const cityId = cityData.city.replace(/[^a-zA-Z0-9]/g, '_');
-        const cityDiv = $(`
-            <div class="city-points">
-                <span>${cityData.city}</span>
-                <div>
-                    <button onclick="adjustPoints('${cityData.city}', 1)">▲</button>
-                    <span id="points-${cityId}">${cityData.points}</span>
-                    <button onclick="adjustPoints('${cityData.city}', -1)">▼</button>
+        // Build the points list
+        citiesWithPoints.forEach(cityData => {
+            const cityId = cityData.city.replace(/[^a-zA-Z0-9]/g, '_');
+            const cityDiv = $(`
+                <div class="city-points">
+                    <span>${cityData.city}</span>
+                    <div>
+                        <button onclick="adjustPoints('${cityData.city}', 1)">▲</button>
+                        <span id="points-${cityId}">${cityData.points}</span>
+                        <button onclick="adjustPoints('${cityData.city}', -1)">▼</button>
+                    </div>
                 </div>
-            </div>
-        `);
-        pointsList.append(cityDiv);
-    });
-}
+            `);
+            pointsList.append(cityDiv);
+        });
+    }
 
-window.adjustPoints = function(cityName, change) {
-    points[cityName] += change;
-    if (points[cityName] < 0) points[cityName] = 0;
-    updatePointsDisplay(cityName);
-    updateValidationMessage();
-    buildPointsList();
-    saveState();
-}
-
-window.vote = function(side) {
-    const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
-    const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
-
-    // Adjust Points
-    if (points[loser] > 0) {
-        points[winner]++;
-        points[loser]--;
-        updatePointsDisplay(winner);
-        updatePointsDisplay(loser);
+    window.adjustPoints = function(cityName, change) {
+        points[cityName] += change;
+        if (points[cityName] < 0) points[cityName] = 0;
+        updatePointsDisplay(cityName);
         updateValidationMessage();
         buildPointsList();
         saveState();
     }
 
-    // Generate Next Comparison
-    generateComparison();
-}
+    window.vote = function(side) {
+        const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
+        const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
 
-function updatePointsDisplay(cityName) {
-    const cityId = cityName.replace(/[^a-zA-Z0-9]/g, '_');
-    $(`#points-${cityId}`).text(points[cityName]);
-}
+        // Adjust Points
+        if (points[loser] > 0) {
+            points[winner]++;
+            points[loser]--;
+            updatePointsDisplay(winner);
+            updatePointsDisplay(loser);
+            updateValidationMessage();
+            buildPointsList();
+            saveState();
+        }
+
+        // Generate Next Comparison
+        generateComparison();
+    }
+
+    function updatePointsDisplay(cityName) {
+        const cityId = cityName.replace(/[^a-zA-Z0-9]/g, '_');
+        $(`#points-${cityId}`).text(points[cityName]);
+    }
 
     function updateValidationMessage() {
         const totalPoints = Object.values(points).reduce((a, b) => a + b, 0);
@@ -206,8 +206,14 @@ function updatePointsDisplay(cityName) {
         if (confirm('Are you sure you want to reset all points?')) {
             localStorage.clear();
             points = {};
+            cities.forEach(city => {
+                points[city.city] = 10;
+            });
             currentComparison = {};
-            initialize();
+            buildPointsList();
+            updateValidationMessage();
+            generateComparison();
+            saveState();
         }
     }
 
