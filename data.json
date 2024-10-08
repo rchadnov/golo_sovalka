@@ -1,4 +1,4 @@
- {
+{
   "cities": [
     {
       "city": "Athens",
@@ -12,7 +12,11 @@
         "NightlifeAndEntertainment": "The nightlife in Athens is vibrant and diverse, featuring rooftop bars with Acropolis views, live music venues, and clubs in areas like Gazi and Psiri that stay open until dawn.",
         "OutdoorActivitiesAndNature": "Visitors can explore historical sites like the Acropolis, hike up Mount Lycabettus for panoramic views, or relax at the beaches along the Athenian Riviera.",
         "ClimateAndWeather": "Athens has a Mediterranean climate with hot, dry summers and mild winters, making it suitable for year-round visits.",
-        "AdultEntertainment": "Athens offers various adult entertainment venues including strip clubs and adult theaters. Prostitution is legal and regulated in Greece, but activities are confined to licensed establishments."
+        "AdultEntertainment": "Athens offers various adult entertainment venues including strip clubs and adult theaters. Prostitution is legal and regulated in Greece, but activities are confined to licensed establishments.",
+        "CulinaryRating": 8,
+        "NightlifeRating": 9,
+        "CultureRating": 7,
+        "ShoppingRating": 8
       }
     },
     {
@@ -27,22 +31,11 @@
         "NightlifeAndEntertainment": "Known as the 'Paris of South America,' Buenos Aires has a lively nightlife with tango clubs, bars, and nightclubs that are active well into the early hours.",
         "OutdoorActivitiesAndNature": "Visitors can enjoy parks like Bosques de Palermo, explore the colorful streets of La Boca, or take boat tours along the Tigre Delta.",
         "ClimateAndWeather": "The city experiences mild winters and hot summers, with the most pleasant weather in spring and autumn.",
-        "AdultEntertainment": "Buenos Aires has a range of adult entertainment options, including tango shows with sensual performances. Prostitution is illegal but tolerated in certain areas, though it's unregulated."
-      }
-    },
-    {
-      "city": "Hong Kong",
-      "country": "Hong Kong",
-      "continent": "Asia",
-      "averageTemperature": "27°C",
-      "population": "7.5M",
-      "categories": {
-        "CulinaryScene": "Hong Kong is a food paradise offering everything from Michelin-starred restaurants to street food stalls. Dim sum, seafood, and Cantonese cuisine are highlights.",
-        "EscapeRooms": "The city has a robust escape room industry with high-tech rooms and immersive storytelling, catering to both locals and tourists.",
-        "NightlifeAndEntertainment": "Nightlife centers around areas like Lan Kwai Fong and Tsim Sha Tsui, featuring rooftop bars, nightclubs, and night markets.",
-        "OutdoorActivitiesAndNature": "Despite its urban density, Hong Kong offers hiking trails like Dragon's Back, beaches, and outlying islands for nature escapes.",
-        "ClimateAndWeather": "Subtropical climate with hot, humid summers and mild winters. Typhoon season typically runs from May to November.",
-        "AdultEntertainment": "Hong Kong has a variety of adult entertainment venues. Prostitution is legal but organized activities like brothels are illegal."
+        "AdultEntertainment": "Buenos Aires has a range of adult entertainment options, including tango shows with sensual performances. Prostitution is illegal but tolerated in certain areas, though it's unregulated.",
+        "CulinaryRating": 7,
+        "NightlifeRating": 9,
+        "CultureRating": 5,
+        "ShoppingRating": 6
       }
     },
     {
@@ -57,7 +50,30 @@
         "NightlifeAndEntertainment": "Nightlife includes trendy bars, jazz clubs, and waterfront venues, particularly around Long Street and the V&A Waterfront.",
         "OutdoorActivitiesAndNature": "Outdoor enthusiasts can hike Table Mountain, visit Cape Point, or enjoy beaches like Camps Bay and Boulders Beach with its penguin colony.",
         "ClimateAndWeather": "Mediterranean climate with warm, dry summers and cool, wet winters. Best visited during the summer months.",
-        "AdultEntertainment": "Cape Town has adult entertainment venues including strip clubs. Prostitution is illegal but widely practiced and unregulated."
+        "AdultEntertainment": "Cape Town has adult entertainment venues including strip clubs. Prostitution is illegal but widely practiced and unregulated.",
+        "CulinaryRating": 6,
+        "NightlifeRating": 9,
+        "CultureRating": 6,
+        "ShoppingRating": 6
+      }
+    },
+    {
+      "city": "Hong Kong",
+      "country": "Hong Kong",
+      "continent": "Asia",
+      "averageTemperature": "27°C",
+      "population": "7.5M",
+      "categories": {
+        "CulinaryScene": "Hong Kong is a food paradise offering everything from Michelin-starred restaurants to street food stalls. Dim sum, seafood, and Cantonese cuisine are highlights.",
+        "EscapeRooms": "The city has a robust escape room industry with high-tech rooms and immersive storytelling, catering to both locals and tourists.",
+        "NightlifeAndEntertainment": "Nightlife centers around areas like Lan Kwai Fong and Tsim Sha Tsui, featuring rooftop bars, nightclubs, and night markets.",
+        "OutdoorActivitiesAndNature": "Despite its urban density, Hong Kong offers hiking trails like Dragon's Back, beaches, and outlying islands for nature escapes.",
+        "ClimateAndWeather": "Subtropical climate with hot, humid summers and mild winters. Typhoon season typically runs from May to November.",
+        "AdultEntertainment": "Hong Kong has a variety of adult entertainment venues. Prostitution is legal but organized activities like brothels are illegal.",
+        "CulinaryRating": 9,
+        "NightlifeRating": 9,
+        "CultureRating": 7,
+        "ShoppingRating": 8
       }
     },
     {
@@ -72,7 +88,11 @@
         "NightlifeAndEntertainment": "Nightlife is vibrant, with options ranging from rooftop bars overlooking the Bund to nightclubs and live music venues.",
         "OutdoorActivitiesAndNature": "Visitors can stroll along the Bund, explore Yu Garden, or take river cruises. Nearby water towns offer cultural day trips.",
         "ClimateAndWeather": "Humid subtropical climate with hot, humid summers and cold winters. Typhoon season can affect weather patterns.",
-        "AdultEntertainment": "Shanghai has a variety of adult entertainment options, though prostitution is illegal and activities are underground."
+        "AdultEntertainment": "Shanghai has a variety of adult entertainment options, though prostitution is illegal and activities are underground.",
+        "CulinaryRating": 9,
+        "NightlifeRating": 9,
+        "CultureRating": 7,
+        "ShoppingRating": 6
       }
     },
     {
@@ -87,82 +107,11 @@
         "NightlifeAndEntertainment": "Nightlife areas like Shibuya, Shinjuku, and Roppongi are packed with bars, clubs, karaoke, and entertainment complexes.",
         "OutdoorActivitiesAndNature": "Visitors can enjoy parks like Ueno and Yoyogi, visit nearby Mount Takao, or explore coastal areas.",
         "ClimateAndWeather": "Tokyo has four distinct seasons with hot summers and cool winters. Spring cherry blossoms and autumn foliage are peak times.",
-        "AdultEntertainment": "Tokyo's adult entertainment includes hostess bars, strip clubs, and themed venues. Prostitution is illegal but loopholes exist, and certain services are available in designated areas."
-      }
-    },
-    {
-      "city": "Seoul",
-      "country": "South Korea",
-      "continent": "Asia",
-      "averageTemperature": "21°C",
-      "population": "9.7M",
-      "categories": {
-        "CulinaryScene": "Seoul offers a dynamic food scene with Korean BBQ, street food, and an increasing number of international restaurants.",
-        "EscapeRooms": "The city has a popular escape room industry with themes ranging from historical to futuristic, often incorporating Korean culture.",
-        "NightlifeAndEntertainment": "Areas like Hongdae and Gangnam are famous for nightlife, including clubs, bars, and noraebang (karaoke rooms).",
-        "OutdoorActivitiesAndNature": "Hiking is popular with trails on Bukhansan Mountain, as well as river cruises on the Han River.",
-        "ClimateAndWeather": "Temperate climate with four distinct seasons, including hot, humid summers and cold, snowy winters.",
-        "AdultEntertainment": "Seoul has adult entertainment districts like Gangnam and Itaewon. Prostitution is illegal but occurs in red-light districts."
-      }
-    },
-    {
-      "city": "Madrid",
-      "country": "Spain",
-      "continent": "Europe",
-      "averageTemperature": "20°C",
-      "population": "3.3M",
-      "categories": {
-        "CulinaryScene": "Madrid offers traditional Spanish cuisine like tapas and paella, alongside a burgeoning gastronomic scene with Michelin-starred restaurants.",
-        "EscapeRooms": "The city has numerous escape rooms with a variety of themes, often featuring high production values and storytelling.",
-        "NightlifeAndEntertainment": "Known for its energetic nightlife, Madrid's clubs, bars, and flamenco shows are concentrated in areas like Gran Vía and Malasaña.",
-        "OutdoorActivitiesAndNature": "Visitors can enjoy Retiro Park, visit nearby mountains for hiking, or explore historical sites.",
-        "ClimateAndWeather": "Madrid has a Mediterranean climate with hot summers and cool winters, experiencing plenty of sunshine year-round.",
-        "AdultEntertainment": "Madrid offers adult entertainment including strip clubs and erotic shows. Prostitution is decriminalized but unregulated."
-      }
-    },
-    {
-      "city": "Barcelona",
-      "country": "Spain",
-      "continent": "Europe",
-      "averageTemperature": "21°C",
-      "population": "1.6M",
-      "categories": {
-        "CulinaryScene": "Barcelona is famous for its Catalan cuisine, seafood, and a variety of tapas bars. The city also hosts numerous food markets.",
-        "EscapeRooms": "Boasts some of Europe's best escape rooms, known for creativity and immersion, with themes often inspired by local culture.",
-        "NightlifeAndEntertainment": "Nightlife includes beach clubs, bars in the Gothic Quarter, and live music venues, with a late-night dining culture.",
-        "OutdoorActivitiesAndNature": "Visitors can enjoy beaches, hike in Park Güell, or take day trips to Montserrat Mountain.",
-        "ClimateAndWeather": "Mediterranean climate with warm summers and mild winters, ideal for outdoor activities year-round.",
-        "AdultEntertainment": "Barcelona has a variety of adult entertainment options. Prostitution is decriminalized but lacks regulation, with activities often visible in certain areas."
-      }
-    },
-    {
-      "city": "Dublin",
-      "country": "Ireland",
-      "continent": "Europe",
-      "averageTemperature": "13°C",
-      "population": "1.45M",
-      "categories": {
-        "CulinaryScene": "Dublin offers traditional Irish fare like stews and soda bread, alongside a growing scene of international and modern Irish cuisine.",
-        "EscapeRooms": "The city has several escape rooms with themes ranging from historical mysteries to horror.",
-        "NightlifeAndEntertainment": "Famous for its pub culture, Dublin's Temple Bar area is a hub for live music, bars, and nightlife.",
-        "OutdoorActivitiesAndNature": "Outdoor options include Phoenix Park, coastal walks, and day trips to the Wicklow Mountains.",
-        "ClimateAndWeather": "Temperate maritime climate with mild temperatures but frequent rainfall throughout the year.",
-        "AdultEntertainment": "Dublin has a limited adult entertainment scene. Prostitution is legal but activities like brothel-keeping are illegal."
-      }
-    },
-    {
-      "city": "Cyprus",
-      "country": "Cyprus",
-      "continent": "Europe",
-      "averageTemperature": "25°C",
-      "population": "0.003M",
-      "categories": {
-        "CulinaryScene": "Cyprus offers Mediterranean cuisine with Greek and Middle Eastern influences, including dishes like halloumi and meze platters.",
-        "EscapeRooms": "Escape rooms are available in major towns, offering themes that often incorporate local myths and legends.",
-        "NightlifeAndEntertainment": "Nightlife is concentrated in areas like Ayia Napa, known for its clubs and beach parties.",
-        "OutdoorActivitiesAndNature": "Beautiful beaches, hiking in the Troodos Mountains, and water sports are popular activities.",
-        "ClimateAndWeather": "Mediterranean climate with hot, dry summers and mild winters, ideal for beach activities.",
-        "AdultEntertainment": "Adult entertainment is present in tourist areas. Prostitution is illegal but occurs discreetly."
+        "AdultEntertainment": "Tokyo's adult entertainment includes hostess bars, strip clubs, and themed venues. Prostitution is illegal but loopholes exist, and certain services are available in designated areas.",
+        "CulinaryRating": 10,
+        "NightlifeRating": 10,
+        "CultureRating": 9,
+        "ShoppingRating": 8
       }
     },
     {
@@ -177,7 +126,125 @@
         "NightlifeAndEntertainment": "Nightlife includes wine bars, clubs, and open-air venues, especially in neighborhoods like Trastevere and Testaccio.",
         "OutdoorActivitiesAndNature": "Visitors can explore ancient ruins, enjoy Villa Borghese gardens, or take day trips to nearby beaches.",
         "ClimateAndWeather": "Mediterranean climate with hot summers and mild winters, favorable for tourism most of the year.",
-        "AdultEntertainment": "Rome has adult entertainment options including strip clubs. Prostitution is illegal but tolerated in certain areas."
+        "AdultEntertainment": "Rome has adult entertainment options including strip clubs. Prostitution is illegal but tolerated in certain areas.",
+        "CulinaryRating": 8,
+        "NightlifeRating": 9,
+        "CultureRating": 7,
+        "ShoppingRating": 8
+      }
+    },
+    {
+      "city": "Seoul",
+      "country": "South Korea",
+      "continent": "Asia",
+      "averageTemperature": "21°C",
+      "population": "9.7M",
+      "categories": {
+        "CulinaryScene": "Seoul offers a dynamic food scene with Korean BBQ, street food, and an increasing number of international restaurants.",
+        "EscapeRooms": "The city has a popular escape room industry with themes ranging from historical to futuristic, often incorporating Korean culture.",
+        "NightlifeAndEntertainment": "Areas like Hongdae and Gangnam are famous for nightlife, including clubs, bars, and noraebang (karaoke rooms).",
+        "OutdoorActivitiesAndNature": "Hiking is popular with trails on Bukhansan Mountain, as well as river cruises on the Han River.",
+        "ClimateAndWeather": "Temperate climate with four distinct seasons, including hot, humid summers and cold, snowy winters.",
+        "AdultEntertainment": "Seoul has adult entertainment districts like Gangnam and Itaewon. Prostitution is illegal but occurs in red-light districts.",
+        "CulinaryRating": 9,
+        "NightlifeRating": 9,
+        "CultureRating": 9,
+        "ShoppingRating": 7
+      }
+    },
+    {
+      "city": "Bangkok",
+      "country": "Thailand",
+      "continent": "Asia",
+      "averageTemperature": "29°C",
+      "population": "10.5M",
+      "categories": {
+        "CulinaryScene": "Bangkok is renowned for its street food, offering a wide variety of Thai dishes. The city also has numerous upscale restaurants and international cuisines.",
+        "EscapeRooms": "The escape room scene in Bangkok is growing, with rooms often incorporating Thai culture and mythology into their themes.",
+        "NightlifeAndEntertainment": "Bangkok's nightlife is vibrant and diverse, with options ranging from rooftop bars to night markets and clubs in areas like Sukhumvit and Silom.",
+        "OutdoorActivitiesAndNature": "Visitors can explore temples, take canal tours, or visit nearby national parks for nature experiences.",
+        "ClimateAndWeather": "Tropical climate with hot, humid weather year-round. The best time to visit is during the cooler dry season from November to February.",
+        "AdultEntertainment": "Bangkok has a reputation for its adult entertainment industry, with areas like Patpong and Soi Cowboy known for go-go bars and clubs. Prostitution is illegal but widely tolerated.",
+        "CulinaryRating": 9,
+        "NightlifeRating": 9,
+        "CultureRating": 5,
+        "ShoppingRating": 6
+      }
+    },
+    {
+      "city": "Madrid",
+      "country": "Spain",
+      "continent": "Europe",
+      "averageTemperature": "20°C",
+      "population": "3.3M",
+      "categories": {
+        "CulinaryScene": "Madrid offers traditional Spanish cuisine like tapas and paella, alongside a burgeoning gastronomic scene with Michelin-starred restaurants.",
+        "EscapeRooms": "The city has numerous escape rooms with a variety of themes, often featuring high production values and storytelling.",
+        "NightlifeAndEntertainment": "Known for its energetic nightlife, Madrid's clubs, bars, and flamenco shows are concentrated in areas like Gran Vía and Malasaña.",
+        "OutdoorActivitiesAndNature": "Visitors can enjoy Retiro Park, visit nearby mountains for hiking, or explore historical sites.",
+        "ClimateAndWeather": "Madrid has a Mediterranean climate with hot summers and cool winters, experiencing plenty of sunshine year-round.",
+        "AdultEntertainment": "Madrid offers adult entertainment including strip clubs and erotic shows. Prostitution is decriminalized but unregulated.",
+        "CulinaryRating": 8,
+        "NightlifeRating": 9,
+        "CultureRating": 8,
+        "ShoppingRating": 8
+      }
+    },
+    {
+      "city": "Dublin",
+      "country": "Ireland",
+      "continent": "Europe",
+      "averageTemperature": "13°C",
+      "population": "1.45M",
+      "categories": {
+        "CulinaryScene": "Dublin offers traditional Irish fare like stews and soda bread, alongside a growing scene of international and modern Irish cuisine.",
+        "EscapeRooms": "The city has several escape rooms with themes ranging from historical mysteries to horror.",
+        "NightlifeAndEntertainment": "Famous for its pub culture, Dublin's Temple Bar area is a hub for live music, bars, and nightlife.",
+        "OutdoorActivitiesAndNature": "Outdoor options include Phoenix Park, coastal walks, and day trips to the Wicklow Mountains.",
+        "ClimateAndWeather": "Temperate maritime climate with mild temperatures but frequent rainfall throughout the year.",
+        "AdultEntertainment": "Dublin has a limited adult entertainment scene. Prostitution is legal but activities like brothel-keeping are illegal.",
+        "CulinaryRating": 6,
+        "NightlifeRating": 8,
+        "CultureRating": 9,
+        "ShoppingRating": 8
+      }
+    },
+   {
+      "city": "Cyprus",
+      "country": "Cyprus",
+      "continent": "Europe",
+      "averageTemperature": "25°C",
+      "population": "0.003M",
+      "categories": {
+        "CulinaryScene": "Cyprus offers Mediterranean cuisine with Greek and Middle Eastern influences, including dishes like halloumi and meze platters.",
+        "EscapeRooms": "Escape rooms are available in major towns, offering themes that often incorporate local myths and legends.",
+        "NightlifeAndEntertainment": "Nightlife is concentrated in areas like Ayia Napa, known for its clubs and beach parties.",
+        "OutdoorActivitiesAndNature": "Beautiful beaches, hiking in the Troodos Mountains, and water sports are popular activities.",
+        "ClimateAndWeather": "Mediterranean climate with hot, dry summers and mild winters, ideal for beach activities.",
+        "AdultEntertainment": "Adult entertainment is present in tourist areas. Prostitution is illegal but occurs discreetly.",
+        "CulinaryRating": 3,
+        "NightlifeRating": 8,
+        "CultureRating": 8,
+        "ShoppingRating": 6
+      }
+    },
+    {
+      "city": "Vienna",
+      "country": "Austria",
+      "continent": "Europe",
+      "averageTemperature": "18°C",
+      "population": "1.9M",
+      "categories": {
+        "CulinaryScene": "Vienna is famous for its coffee house culture, Wiener Schnitzel, and Sachertorte. The city offers a mix of traditional Austrian cuisine and modern international restaurants.",
+        "EscapeRooms": "Vienna has a growing escape room scene, with themes often incorporating the city's rich history and cultural heritage.",
+        "NightlifeAndEntertainment": "The city's nightlife ranges from classical concerts and opera to modern clubs and bars. The Naschmarkt area is popular for evening entertainment.",
+        "OutdoorActivitiesAndNature": "Visitors can enjoy the Prater amusement park, stroll through the Schönbrunn Palace gardens, or take day trips to the Vienna Woods.",
+        "ClimateAndWeather": "Vienna has a temperate continental climate with warm summers and cold winters. Spring and autumn are particularly pleasant for visiting.",
+        "AdultEntertainment": "Vienna has a small adult entertainment scene. Prostitution is legal and regulated in designated areas.",
+        "CulinaryRating": 8,
+        "NightlifeRating": 9,
+        "CultureRating": 9,
+        "ShoppingRating": 8
       }
     },
     {
@@ -192,7 +259,11 @@
         "NightlifeAndEntertainment": "Known for its ruin bars and vibrant nightlife in districts like Erzsébetváros, offering a unique party scene.",
         "OutdoorActivitiesAndNature": "Enjoy thermal baths, river cruises on the Danube, and hiking in Buda Hills.",
         "ClimateAndWeather": "Continental climate with warm summers and cold winters, offering different activities each season.",
-        "AdultEntertainment": "Budapest has a range of adult entertainment venues. Prostitution is legal and regulated, confined to certain zones."
+        "AdultEntertainment": "Budapest has a range of adult entertainment venues. Prostitution is legal and regulated, confined to certain zones.",
+        "CulinaryRating": 8,
+        "NightlifeRating": 9,
+        "CultureRating": 8,
+        "ShoppingRating": 8
       }
     },
     {
@@ -207,7 +278,11 @@
         "NightlifeAndEntertainment": "Osaka has a lively nightlife with bars and clubs in areas like Dōtonbori, while Kyoto offers a more subdued atmosphere with tea houses and cultural performances.",
         "OutdoorActivitiesAndNature": "Explore historical temples, bamboo forests in Arashiyama, and Osaka Castle Park.",
         "ClimateAndWeather": "Humid subtropical climate with hot summers and mild winters. Spring and autumn are ideal for visiting.",
-        "AdultEntertainment": "Osaka has entertainment districts like Dōtonbori with various adult venues. Kyoto's adult entertainment is more discreet. Prostitution is illegal but certain services operate within legal loopholes."
+        "AdultEntertainment": "Osaka has entertainment districts like Dōtonbori with various adult venues. Kyoto's adult entertainment is more discreet. Prostitution is illegal but certain services operate within legal loopholes.",
+        "CulinaryRating": 9,
+        "NightlifeRating": 9,
+        "CultureRating": 9,
+        "ShoppingRating": 8
       }
     },
     {
@@ -222,22 +297,30 @@
         "NightlifeAndEntertainment": "Nightlife includes luxury lounges, beach clubs, and rooftop bars, though regulated under Islamic law.",
         "OutdoorActivitiesAndNature": "Desert safaris, dune bashing, and visiting the Palm Jumeirah are popular outdoor activities.",
         "ClimateAndWeather": "Desert climate with extremely hot summers and warm winters. Outdoor activities are best during the cooler months.",
-        "AdultEntertainment": "Adult entertainment is heavily regulated. Prostitution is illegal, and public indecency laws are strict."
+        "AdultEntertainment": "Adult entertainment is heavily regulated. Prostitution is illegal, and public indecency laws are strict.",
+        "CulinaryRating": 9,
+        "NightlifeRating": 8,
+        "CultureRating": 9,
+        "ShoppingRating": 8
       }
     },
     {
-      "city": "Berlin",
-      "country": "Germany",
+      "city": "Barcelona",
+      "country": "Spain",
       "continent": "Europe",
-      "averageTemperature": "16°C",
-      "population": "3.7M",
+      "averageTemperature": "21°C",
+      "population": "1.6M",
       "categories": {
-        "CulinaryScene": "Berlin offers international cuisines and local favorites like currywurst and schnitzel, with a strong street food culture.",
-        "EscapeRooms": "The city has numerous escape rooms with diverse themes and levels of difficulty, popular among locals and tourists.",
-        "NightlifeAndEntertainment": "Renowned for its nightlife, Berlin features techno clubs, bars, and cultural venues that often stay open for days.",
-        "OutdoorActivitiesAndNature": "Visitors can enjoy parks like Tiergarten, bike along the Berlin Wall, or take boat tours on the Spree River.",
-        "ClimateAndWeather": "Temperate seasonal climate with warm summers and cold winters, suitable for different activities year-round.",
-        "AdultEntertainment": "Berlin has a liberal attitude toward adult entertainment, with venues ranging from strip clubs to fetish clubs. Prostitution is legal and regulated."
+        "CulinaryScene": "Barcelona is famous for its Catalan cuisine, seafood, and a variety of tapas bars. The city also hosts numerous food markets.",
+        "EscapeRooms": "Boasts some of Europe's best escape rooms, known for creativity and immersion, with themes often inspired by local culture.",
+        "NightlifeAndEntertainment": "Nightlife includes beach clubs, bars in the Gothic Quarter, and live music venues, with a late-night dining culture.",
+        "OutdoorActivitiesAndNature": "Visitors can enjoy beaches, hike in Park Güell, or take day trips to Montserrat Mountain.",
+        "ClimateAndWeather": "Mediterranean climate with warm summers and mild winters, ideal for outdoor activities year-round.",
+        "AdultEntertainment": "Barcelona has a variety of adult entertainment options. Prostitution is decriminalized but lacks regulation, with activities often visible in certain areas.",
+        "CulinaryRating": 7,
+        "NightlifeRating": 10,
+        "CultureRating": 8,
+        "ShoppingRating": 9
       }
     },
     {
@@ -252,7 +335,11 @@
         "NightlifeAndEntertainment": "Known for its floating river clubs called 'splavovi,' Belgrade's nightlife is vibrant and diverse.",
         "OutdoorActivitiesAndNature": "Visitors can explore Kalemegdan Fortress, enjoy Ada Ciganlija lake, or cruise along the Danube and Sava rivers.",
         "ClimateAndWeather": "Moderate continental climate with hot summers and cold winters, offering seasonal activities.",
-        "AdultEntertainment": "Belgrade has adult entertainment venues including strip clubs. Prostitution is illegal but commonly practiced and unregulated."
+        "AdultEntertainment": "Belgrade has adult entertainment venues including strip clubs. Prostitution is illegal but commonly practiced and unregulated.",
+        "CulinaryRating": 6,
+        "NightlifeRating": 7,
+        "CultureRating": 7,
+        "ShoppingRating": 7
       }
     }
   ]
