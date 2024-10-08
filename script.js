@@ -51,15 +51,8 @@ $(document).ready(function() {
         }
         console.log('Points after initialization:', points);
 
-        if (localStorage.getItem('currentComparison')) {
-            console.log('currentComparison found in localStorage');
-            currentComparison = JSON.parse(localStorage.getItem('currentComparison'));
-            console.log('Restoring comparison...');
-            restoreComparison();
-        } else {
-            console.log('Generating new comparison...');
-            generateComparison();
-        }
+
+        generateComparison();
 
         buildPointsList();
         updateValidationMessage();
@@ -174,7 +167,8 @@ function updateValidationMessage() {
         };
 
         saveState();
-    }
+        loadBackgroundImages();
+   }
 
 function updateComparisonPane(side, city, category, categoryName) {
     $(`#${side}-city-name`)
@@ -187,8 +181,13 @@ function updateComparisonPane(side, city, category, categoryName) {
         .text(city.categories[category])
         .addClass('animate__animated animate__fadeIn');
 
-    updateBackgroundImage(side, city.city, category);
+    //updateBackgroundImage(side, city.city, category);
 }
+
+       function loadBackgroundImages() {
+        updateBackgroundImage('left', currentComparison.leftCity, currentComparison.category);
+        updateBackgroundImage('right', currentComparison.rightCity, currentComparison.category);
+    }
 
     function restoreComparison() {
         const leftCity = cities.find(city => city.city === currentComparison.leftCity);
