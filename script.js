@@ -16,6 +16,7 @@ let nsfwEnabled = false;
 $(document).ready(function() {
     $('#nsfw-checkbox').change(function() {
         nsfwEnabled = this.checked;
+        console.log('NSFW enabled:', nsfwEnabled);  
         generateComparison();
     });
         
@@ -140,7 +141,9 @@ function updateValidationMessage() {
 
     function generateComparison() {
         let availableCategories = nsfwEnabled ? categories : categories.filter(cat => cat !== "AdultEntertainment");
+        console.log('Available categories:', availableCategories);  // Add this line for debugging
         const category = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+        console.log('Selected category:', category);  // Add this line for debugging
 
         let cityIndices = [];
         while (cityIndices.length < 2) {
@@ -191,11 +194,13 @@ function updateComparisonPane(side, city, category, categoryName) {
     }
 
     function updateBackgroundImage(side, cityName, category) {
+        console.log('Updating background image:', side, cityName, category, 'NSFW:', nsfwEnabled);  // Add this line for debugging
         const cityFolder = cityName.replace(/[\s\/]+/g, '').toLowerCase();
         let validImages = imageFiles.filter(file => 
-            file.startsWith(`${cityFolder}_`) && 
-            (nsfwEnabled || !file.includes('nsfw'))
+            file.startsWith(`${cityFolder}_`)
         );
+
+        console.log('All valid images:', validImages);  // Add this line for debugging
 
         if (category === "AdultEntertainment") {
             if (nsfwEnabled) {
@@ -208,12 +213,16 @@ function updateComparisonPane(side, city, category, categoryName) {
             validImages = validImages.filter(file => !file.includes('nsfw'));
         }
 
+        console.log('Filtered valid images:', validImages);  // Add this line for debugging
+
         if (validImages.length === 0) {
+            console.log('No valid images found, using default');  // Add this line for debugging
             setBackgroundImage(`#${side}-pane`, 'default.jpeg');
             return;
         }
 
         const randomImage = validImages[Math.floor(Math.random() * validImages.length)];
+        console.log('Selected image:', randomImage);  // Add this line for debugging
         setBackgroundImage(`#${side}-pane`, `images/${randomImage}`);
     }
 
