@@ -54,6 +54,9 @@ $.getJSON('data.json', function(data) {
         console.log('Updating validation message...');
         updateValidationMessage();
         console.log('Initialization complete');
+
+        initializeParallax();
+
     }
 
     function buildPointsList() {
@@ -85,33 +88,7 @@ $.getJSON('data.json', function(data) {
         });
     }
 
-    window.adjustPoints = function(cityName, change) {
-        points[cityName] += change;
-        if (points[cityName] < 0) points[cityName] = 0;
-        updatePointsDisplay(cityName);
-        updateValidationMessage();
-        buildPointsList();
-        saveState();
-    }
-
-    window.vote = function(side) {
-        const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
-        const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
-
-        // Adjust Points
-        if (points[loser] > 0) {
-            points[winner]++;
-            points[loser]--;
-            updatePointsDisplay(winner);
-            updatePointsDisplay(loser);
-            updateValidationMessage();
-            buildPointsList();
-            saveState();
-        }
-
-        // Generate Next Comparison
-        generateComparison();
-    }
+    
 
     function updatePointsDisplay(cityName) {
         const cityId = cityName.replace(/[^a-zA-Z0-9]/g, '_');
@@ -164,15 +141,16 @@ $.getJSON('data.json', function(data) {
         // Update Images
         updateBackgroundImage(side, city.city, category);
 
-        // Initialize Parallax if available
-        if (typeof Parallax !== 'undefined') {
-            const parallaxContainer = $(`#${side}-pane .parallax-container`)[0];
-            if (parallaxContainer && !$(parallaxContainer).data('plugin_parallax')) {
-                new Parallax(parallaxContainer);
-            }
-        } else {
-            console.warn('Parallax library not loaded. Skipping parallax initialization.');
-        }
+        // Refresh Parallax
+        refreshParallax(`#${side}-pane .parallax-container`);
+    }
+
+    function initializeParallax() {
+        $('.parallax-container').parallax();
+    }
+
+    function refreshParallax(selector) {
+        $(selector).parallax('refresh');
     }
 
     function restoreComparison() {
@@ -195,27 +173,47 @@ $.getJSON('data.json', function(data) {
     }
 
 
+
     // Save State to Local Storage
     function saveState() {
         localStorage.setItem('points', JSON.stringify(points));
         localStorage.setItem('currentComparison', JSON.stringify(currentComparison));
     }
 
-    // Reset Points and Clear Local Storage
-    window.resetPoints = function() {
-        if (confirm('Are you sure you want to reset all points?')) {
-            localStorage.clear();
-            points = {};
-            cities.forEach(city => {
-                points[city.city] = 10;
-            });
-            currentComparison = {};
-            buildPointsList();
+
+
+
+});
+
+
+window.adjustPoints = function(cityName, change) {
+        points[cityName] += change;
+        if (points[cityName] < 0) points[cityName] = 0;
+        updatePointsDisplay(cityName);
+        updateValidationMessage();
+        buildPointsList();
+        saveState();
+    }
+
+    window.vote = function(side) {
+        const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
+        const loser = side === 'left' ? currentComparison.rightCity : currentComparison.leftCity;
+
+        // Adjust Points
+        if (points[loser] > 0) {
+            points[winner]++;
+            points[loser]--;
+            updatePointsDisplay(winner);
+            updatePointsDisplay(loser);
             updateValidationMessage();
-            generateComparison();
+            buildPointsList();
             saveState();
         }
+
+        // Generate Next Comparison
+        generateComparison();
     }
+
 
     // Copy Results to Clipboard
     window.copyResults = function() {
@@ -236,4 +234,20 @@ $.getJSON('data.json', function(data) {
             alert('Failed to copy results.');
         });
     }
-});
+
+
+    // Reset Points and Clear Local Storage
+    window.resetPoints = function() {
+        if (confirm('Are you sure you want to reset all points?')) {
+            localStorage.clear();
+            points = {};
+            cities.forEach(city => {
+                points[city.city] = 10;
+            });
+            currentComparison = {};
+            buildPointsList();
+            updateValidationMessage();
+            generateComparison();
+            saveState();
+        }
+    }
