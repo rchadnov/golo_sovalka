@@ -248,6 +248,11 @@ function updateComparisonPane(side, city, category, categoryName) {
 
     }
 
+        function skipComparison() {
+        generateComparison();
+        setTimeout(loadBackgroundImages, 500);
+    }
+    
     function setBackgroundImage(selector, imagePath) {
         const pane = $(selector);
         pane.find('.animate__animated').removeClass('animate__fadeIn');
@@ -299,6 +304,9 @@ window.adjustPoints = function(cityName, change) {
             case 39: // right arrow key
                 vote('right');
                 break;
+            case 32: // spacebar
+                skipComparison();
+                break;                
             default: return; // exit this handler for other keys
         }
         e.preventDefault(); // prevent the default action (scroll / move caret)
