@@ -290,6 +290,20 @@ window.adjustPoints = function(cityName, change) {
     }
 }
 
+
+        $(document).keydown(function(e) {
+        switch(e.which) {
+            case 37: // left arrow key
+                vote('left');
+                break;
+            case 39: // right arrow key
+                vote('right');
+                break;
+            default: return; // exit this handler for other keys
+        }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
+    
 // Update the vote function to prevent exceeding 40 points
 window.vote = function(side) {
     const winner = side === 'left' ? currentComparison.leftCity : currentComparison.rightCity;
