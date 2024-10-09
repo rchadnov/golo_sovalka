@@ -1,6 +1,6 @@
 let cities = []; 
 let points = {};
-let imageFiles = []; 
+let imageFiles = [];  
 
 const categories = [
     "CulinaryScene",
